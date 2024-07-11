@@ -1,0 +1,46 @@
+.sidebar {
+  flex: 0 0 200px; 
+  position: fixed;
+  margin-top: 77px;
+  width: 30%;
+}
+
+.sidebar-options {
+  display: flex;
+  flex-direction: column;
+  font-size: medium;
+  width: 270px;
+  list-style-type: none;
+}
+
+.sidebar-options > div {
+  display: flex;
+  align-items: center; 
+}
+
+.sidebar-options div a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  height: 45px;
+  width: 100%;
+}
+
+.sidebar-options div a:hover {
+  background-color: lightgrey;
+}
+
+.sidebar-options div.active a {
+  background-color:#f8e5ab;
+}
+
+
+.option-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
+  margin-left: 20px;
+}

@@ -1,0 +1,236 @@
+.main {
+  display: flex;
+  width: 100%;
+}
+
+.notes-container {
+margin-bottom: 10px;
+margin-left: 320px;
+flex-wrap: wrap;
+align-items: flex-start;
+justify-content: flex-start;
+pointer-events: auto;
+width: calc(100vw - 30%);
+}
+
+.add-note {
+background-color: #fff;
+box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302),0 2px 6px 2px rgba(60,64,67,0.149);
+border-radius: 8px;
+transition: box-shadow 0.30s ease;
+margin:97px 450px 20px 300px;
+width: 600px;
+}
+
+.add-note input[type="text"] {
+width: 94%;
+padding: 9px;
+padding-top: 12px;
+margin-left: 8px;
+border: none;
+font-size: 1rem;
+outline: none;
+font-family: "Google Sans",Roboto,Arial,sans-serif;
+font-weight: 500;
+}
+
+.add-note textarea[placeholder="Take a note..."] {
+  color: #202124; 
+}
+
+.add-note textarea {
+width: 95%;
+padding-top: 12px;
+padding: 8px;
+margin-left: 9px;
+border: none;
+color: #202124; 
+font-size: .875rem;
+outline: none;
+font-family:"Google Sans", Roboto, Arial, sans-serif;
+font-weight: 100;
+min-height: 46px;
+resize: none;
+box-sizing: border-box;
+}
+
+.add-button {
+background-color: #5f6368;
+color: white;
+padding: 8px 16px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+background-color: #4d5054;
+}
+
+.add-note-icon {
+width: 24px;
+height: 24px;
+cursor: pointer;
+transition: transform 0.3s ease;
+}
+
+.add-note-icon:hover {
+transform: rotate(45deg);
+}
+
+.take-note {
+color: #202124;
+cursor: pointer;
+padding: 12px 16px 12px 16px;
+border-radius: 8px;
+text-align: left;
+font-size: large;
+transition: background-color 0.3s ease;
+}
+
+.add-note-icon {
+  width: 80px;
+  height: 80px;
+  position: fixed;
+  bottom: 60px;
+  right: 90px;
+  cursor: pointer;
+  z-index: 1000; 
+}
+
+.pinned-notes-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+}
+
+.pinned-header {
+  margin-top: 20px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.header-card {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.note-title {
+width: calc(100% - 20px);
+border: none;
+font-weight: bold;
+font-size: 16px;
+margin-bottom: 5px;
+position: absolute;
+}
+
+.note-description {
+border: none;
+resize: none;
+overflow: hidden;
+}
+
+.note-card {
+border-radius: 8px;
+position: relative;
+flex: 0 0 auto;
+margin: 0 12px 20px 0;
+}
+
+.note-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative; 
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  padding: 10px; 
+}
+
+.card-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  outline: none;
+  flex-grow: 1;
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+  outline: none;
+  flex-grow: 1;
+  overflow: auto;
+  min-height: 50px;
+}
+
+.label-button {
+  background-color: transparent;
+  margin-left: 4px;
+  border: none;
+  margin-top: 5px;
+  cursor: pointer;
+  size: 10px;
+  padding-bottom: 5px;
+  color: #333;
+}
+
+.label-button :hover {
+  background-color: rgba(73, 72, 72, 0.384);
+  border-radius: 50%;
+  padding: auto;
+  color: #000;
+}
+
+.label-button svg {
+  margin-top: 4px;
+  margin-right: 5px;
+}
+
+.button-container {
+  display: flex;
+  position: absolute;
+  justify-content: space-evenly;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  border-radius: 100%;
+}
+
+.button-container button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0;
+  border-radius: 100%;
+  height: 30px;
+}
+
+.button-container button:hover {
+  color: #000;
+  background-color: rgba(243, 227, 227, 0.5);
+}
+.note-card .button-container-wrapper {
+  display: none;
+}
+
+.note-card:hover .button-container-wrapper {
+  display: block;
+}
+
+.button-container button svg {
+  color: #555;
+}

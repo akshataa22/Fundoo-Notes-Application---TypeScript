@@ -1,0 +1,49 @@
+.AddNotebutton-container-wrapper{
+    display: flex;
+   padding: 1%;
+}
+.AddNotebutton-container {
+    display: flex;
+
+    justify-content: flex-start;
+  
+    width: 100%;
+    padding: 5px;
+    border-radius: 100%;
+  }
+  
+  .AddNotebutton-container button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    margin-right: 4%;
+    border-radius: 100%;
+    height: 30px;
+    font-size: xx-small;
+  }
+  
+  .AddNotebutton-container button:hover {
+    color: #000;
+    background-color: rgba(243, 227, 227, 0.5);
+  }
+
+  .AddNotebutton-container button svg {
+    color: #555;
+  }
+
+  .closeIcon{
+    width: 20%;
+   background-color: #fff;
+   border: none;
+   color: rgba(0, 0, 0, .87);
+   font-family: "Google Sans", Roboto, Arial, sans-serif;
+    font-size: .875rem;
+    font-weight: 500;
+    margin-right: 10px;
+  }
+
+  .closeIcon:hover {
+    background-color: rgba(230, 223, 223, 0.5);
+    border-radius: 5%;
+  }
