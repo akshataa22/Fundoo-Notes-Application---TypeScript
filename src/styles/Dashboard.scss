@@ -5,7 +5,7 @@
 
 .notes-container {
 margin-bottom: 10px;
-margin-left: 320px;
+margin-left: 371px;
 flex-wrap: wrap;
 align-items: flex-start;
 justify-content: flex-start;
@@ -18,7 +18,7 @@ background-color: #fff;
 box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302),0 2px 6px 2px rgba(60,64,67,0.149);
 border-radius: 8px;
 transition: box-shadow 0.30s ease;
-margin:97px 450px 20px 300px;
+margin:97px 450px 20px 231px;
 width: 600px;
 }
 
@@ -128,17 +128,11 @@ margin-bottom: 5px;
 position: absolute;
 }
 
-.note-description {
-border: none;
-resize: none;
-overflow: hidden;
-}
-
 .note-card {
 border-radius: 8px;
 position: relative;
 flex: 0 0 auto;
-margin: 0 12px 20px 0;
+margin: 16px;
 }
 
 .note-card-body {
@@ -155,7 +149,7 @@ margin: 0 12px 20px 0;
   justify-content: space-between;
   position: relative; 
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07),inset -1px 0 0 rgba(0,0,0,.07);
   padding: 10px; 
 }
 

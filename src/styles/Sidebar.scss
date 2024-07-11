@@ -27,6 +27,8 @@
   border-bottom-right-radius: 25px;
   height: 45px;
   width: 100%;
+  font-size: .875rem;
+  font-weight: 500;
 }
 
 .sidebar-options div a:hover {
@@ -34,9 +36,12 @@
 }
 
 .sidebar-options div.active a {
-  background-color:#f8e5ab;
-}
+  background-color:#feefc3;
 
+  .option-icon{
+    color: black;
+  }
+}
 
 .option-icon {
   width: 24px;
