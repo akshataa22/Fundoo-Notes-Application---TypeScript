@@ -40,6 +40,13 @@ const AddNote: React.FC<AddNoteProps> = ({newNotes, onTitleChange, onTextChange,
     }
   };
 
+  const handleCloseAddNote = () => {
+    if (newNotes.title || newNotes.description) {
+      onAddNote();
+    }
+    setIsAddNoteOpen(false);
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -85,14 +92,7 @@ const AddNote: React.FC<AddNoteProps> = ({newNotes, onTitleChange, onTextChange,
                 <MoreVertIcon fontSize="small" />
               </button>
             </div>
-            <button
-              title="Add"
-              className="closeIcon"
-              onClick={onAddNote}
-            >
-              Add
-            </button>
-            <button title="Close" className="closeIcon" onClick={toggleAddNote}>
+            <button title="Close" className="closeIcon" onClick={handleCloseAddNote}>
               Close
             </button>
           </div>

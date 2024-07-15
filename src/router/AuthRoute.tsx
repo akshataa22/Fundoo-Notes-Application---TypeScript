@@ -6,7 +6,7 @@ interface AuthRouteProps {
 }
 
 const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
-  const token = localStorage.getItem('token'); // Or use a more secure method to check auth
+  const token = localStorage.getItem('token');
 
   if (!token) {
     return <>{children}</>;

@@ -10,6 +10,30 @@ header {
     align-items: center;
 }
 
+.mainMenu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.2%;
+    margin-left: 25px;
+
+    button {
+      border: none;
+      padding: 0;
+      color: #36454F;
+      background-color: white;
+    }
+
+    &:hover {
+      background-color: #C8C8C8;
+      border-radius: 100%;
+
+      .menu svg {
+        background-color: #C8C8C8;
+      }
+    }
+  }
+
 .part1 {
     display: flex;
     align-items: center;
@@ -27,6 +51,7 @@ header {
 .logos {
     display: flex;
     align-items: center;
+    margin-left: 15px;
 }
 
 #logo {
@@ -36,7 +61,7 @@ header {
 }
 
 span {
-    color: #5f6368;
+    color: #3c4043;
     font-family: "Product Sans", Arial, sans-serif;
     font-size: 22px;
 }
@@ -48,6 +73,8 @@ svg {
 .part2 {
     display: flex;
     align-items: center;
+    position: fixed;
+    margin-left: 16%;
     gap: 24px;
 }
 
@@ -55,9 +82,8 @@ svg {
     display: flex;
     align-items: center;
     margin-left: 20px;
-    padding-right: 30px;
     justify-content: flex-start;
-    width: 952px;
+    width: 940px;
 }
 
 .search-button {
@@ -124,6 +150,7 @@ svg {
 
 .secondpart {
     display: flex;
+    cursor: pointer;
 }
 
 .layout-toggle {
@@ -136,7 +163,8 @@ svg {
     align-items: center;
     gap: 16px;
     padding-left: 30px;
-    margin-left: 26px;
+    position: absolute;
+    right: 95px;
 }
 
 .menu {
@@ -156,11 +184,13 @@ svg {
     cursor: pointer;
     margin-left: 3%;
     line-height: 20px;
+    right: 15px;
 }
     
 .user-circle span {
   line-height: normal;
-  margin-top: -1px;
+  color: white;
+  margin-bottom: 0.5px;
 }
     
 .user-card {
@@ -171,7 +201,6 @@ svg {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 12%;
   padding: 10px;
   z-index: 10;
 }
@@ -208,11 +237,26 @@ margin: 0 0 10px 0;
   gap: 5px;
   border-top:2px solid #d3d3d3;
   font-weight: 300;
-  text-decoration: none;
+  background: transparent;
   border: none;
   padding-top: 8px;
 }
 
 .logout-button:hover {
+    cursor: pointer;
     text-decoration: none;
+    background: transparent;
+}
+
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-button-container {
+  margin-top: 10px;
+  cursor: pointer;
+  
 }

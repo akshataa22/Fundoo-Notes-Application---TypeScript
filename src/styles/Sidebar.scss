@@ -49,3 +49,37 @@
   margin-right: 20px;
   margin-left: 20px;
 }
+
+.mediasidebar {
+  &.collapsed {
+    .sidebar {
+      padding-left: 1%;
+    }
+
+    .sidebar-options {
+      div {
+        a {
+          &:hover {
+            background-color: #eee8e8;
+            width: 20%;
+            margin-right: 74%;
+            border-radius: 100%;
+          }
+        }
+
+        &.active a {
+          background-color: #feefc3;
+          align-items: center;
+          flex: none;
+          width: 17%;
+          border-radius: 100%;
+        }
+      }
+
+      .option-icon {
+        text-align: center;
+        margin-left: 11px;
+      }
+    }
+  }
+}

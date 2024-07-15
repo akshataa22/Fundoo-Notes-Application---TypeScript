@@ -1,22 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './../assets/icons/logo.png'
-import allicon from './../assets/icons/all icon.png'
+import menu from './../assets/icons/all icon.png'
+import MenuIcon from "@mui/icons-material/Menu";
 import { ViewStreamOutlined as ViewStreamOutlinedIcon } from '@mui/icons-material';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { GridView as GridViewIcon } from '@mui/icons-material';
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import base_url from '../api/baseapi';
 import './../styles/Header.scss'
 
 interface HeaderProps {
   toggleSidebar: () => void;
+  pageTitle: string;
+  toggleLayoutMode: () => void;
+  layoutMode: 'vertical' | 'horizontal';
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
+const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayoutMode, layoutMode}) => {
     const [showUserCard, setShowUserCard] = useState(false);
     const [username, setUsername] = useState('');
-    const [profilePicture, setProfilePicture] = useState(null);
+    const [profilePicture, setProfilePicture] = useState<string | null>(null);
+    const token = localStorage.getItem('token');
+    const firstName = localStorage.getItem('firstName');
+    const lastName = localStorage.getItem('lastName');
+    const navigate = useNavigate();
 
     const toggleUserCard = () => {
         setShowUserCard(!showUserCard);
@@ -24,25 +34,73 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
 
     const firstInitial = username ? username.charAt(0).toUpperCase() : '';
     
+    const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files[0]) {
+        const formData = new FormData();
+        formData.append('file', event.target.files[0]);
+  
+        try {
+          const response = await axios.post(`${base_url}/user/uploadProfileImage?access_token=${token}`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+  
+          if (response.status === 200) {
+            setProfilePicture(URL.createObjectURL(event.target.files[0]));
+            console.log('Profile picture uploaded successfully');
+          }
+        } catch (error) {
+          console.error('Error uploading profile picture:', error);
+        }
+      }
+    };
+    
     const removeProfilePicture = () => {
         setProfilePicture(null);
-        localStorage.removeItem('profilePicture');
       };
-    
+
+      const handleLogout = async () => {
+        try {
+            const response = await axios.post(`${base_url}/user/logout?access_token=${token}`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+            if (response.status === 204) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('firstName');
+                localStorage.removeItem('lastName');
+                navigate('/'); 
+                console.log('Logout successful');
+            }
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };  
+
+    useEffect(() => {
+      setUsername(`${firstName} ${lastName}`);
+  }, [firstName, lastName]);
+
+    const handleRefresh = () => {
+      window.location.reload(); 
+    };
 
     return (
         <header>
             <div className='part1'>
-                <div className='part1-1'>
-                    <button className='menubar' onClick={toggleSidebar}><svg viewBox="0 0 60 48" width="20" height="16" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="60" height="8" rx="4" fill="#5f6368"></rect>
-                        <rect y="20" width="60" height="8" rx="4" fill="#5f6368"></rect>
-                        <rect y="40" width="60" height="8" rx="4" fill="#5f6368"></rect>
-                    </svg></button>
-                </div>
+                <div className="mainMenu">
+        <button title="Main Menu" onClick={toggleSidebar}>
+          <i className="menu">
+            <MenuIcon fontSize="medium" />
+          </i>
+        </button>
+      </div>
                 <div className='logos'>
                     <img src={logo} alt="logo" id='logo' />
-                    <span>Keep</span>
+                    <span className="logo-text">{pageTitle}</span>
                 </div>
             </div>
             <div className='part2'>
@@ -67,23 +125,28 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                     </form>
                 </div>
                 <div className='secondpart'>
-                    <RefreshOutlinedIcon />
-                    <div className="layout-toggle">
-                    <GridViewIcon />
-                    </div>
+                  <div onClick={handleRefresh}>
+                    <RefreshOutlinedIcon /></div>
+                    <div className="layout-toggle" onClick={toggleLayoutMode}>
+                    {layoutMode === 'vertical' ? (
+              <ViewStreamOutlinedIcon fontSize="medium" />
+            ) : (
+              <GridViewIcon fontSize="medium" />
+            )}
+                  </div>
                     <SettingsOutlinedIcon />
                 </div>
             </div>    
             <div className='part3'>
                 <div>
-                    <img className='menu' src={allicon} alt="menu" />
+                    <img className='menu' src={menu} alt="menu" />
                 </div>
                 <div className="user-circle" onClick={toggleUserCard}>
         {profilePicture ? (
         <>
          <img src={profilePicture} alt="Profile" className="profile-picture" />
         </>
-        ) : (firstInitial)}
+        ) : <span>{firstInitial}</span> }
       </div>
       {showUserCard && (
       <div className="user-card">
@@ -102,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                   type="file"
                   accept="image/*"
                   id="profile-picture-input"
-                //   onChange={handleImageUpload}
+                  onChange={handleImageUpload}
                   style={{ display: 'none' }}
                 />
                 <label htmlFor="profile-picture-input" className="profile-picture-label">
@@ -112,10 +175,10 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             )}
           </div>
           <div className="sign-out">
-            <Link className="logout-button" to="/">
+            <button className="logout-button" onClick={handleLogout}>
             <LogoutIcon />
              <span style={{fontSize:'18px', color: '#424343'}}> Logout</span>
-            </Link>
+            </button>
           </div>
         </div>
       )}

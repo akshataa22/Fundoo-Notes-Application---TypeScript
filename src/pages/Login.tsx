@@ -30,6 +30,8 @@ const Login: React.FC = () => {
           const response = await axios.post(`${base_url}/user/login`, loginData);
           if (response.status === 200) {
             localStorage.setItem('token', response.data.id);
+            localStorage.setItem('firstName', response.data.firstName);
+            localStorage.setItem('lastName', response.data.lastName);
             toast.success("User logged Successfully!", { position: 'top-center' })
             navigate('/dashboard');
           }
