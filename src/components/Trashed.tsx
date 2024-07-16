@@ -50,9 +50,9 @@ function Trash() {
 
   const deleteForever = async (noteId: number) => {
     try {
-      await NoteService.deleteForever([noteId], token);
+      await NoteService.deleteNoteForever([noteId], token);
       setTrashedNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
-      console.log("Note deleted");
+      console.log("Note is permantaly deleted");
     } catch (error) {
       console.error('Error deleting note:', error);
     }

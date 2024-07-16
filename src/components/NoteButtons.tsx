@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect, useRef} from 'react';
 import AddAlertOutlinedIcon from "@mui/icons-material/AddAlertOutlined";
 import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
@@ -9,16 +9,48 @@ import { DeleteOutlineOutlined } from '@mui/icons-material';
 import { Tooltip } from "@mui/material";
 import { Button } from 'reactstrap';
 import "./../styles/Dashboard.scss";
+import ColorCard from './ColorCard';
 
 interface PropNoteButton {
   archive: () => void;
   unarchive?: () => void;
   trash:() => void;
+  colorNote: (color: string) => void;
+  noteId: number; 
   isArchivedPage?: boolean; 
 }
 
-const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = () => {},  isArchivedPage = false }) => {
-  
+const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = () => {},  isArchivedPage = false, colorNote, noteId }) => {
+  const [colorCardVisible, setColorCardVisible] = useState(false);
+  const colorButtonRef = useRef<HTMLDivElement>(null);
+  const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
+
+  const handleColorButtonClick = () => {
+    setSelectedNoteId(noteId); // Set selectedNoteId to noteId when button is clicked
+    setColorCardVisible(!colorCardVisible);
+  };
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (colorButtonRef.current && !colorButtonRef.current.contains(e.target as Node)) {
+      setColorCardVisible(false);
+    }
+  };
+
+  const handleColorSelection = (color: string) => {
+    if (selectedNoteId !== null) {
+      colorNote(color); // Call colorNote function with color parameter
+      setSelectedNoteId(null); // Clear selectedNoteId after selection
+    }
+    setColorCardVisible(false); // Hide color card after selection
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="button-container-wrapper">
       <div className="button-container">
@@ -29,7 +61,7 @@ const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = ()
           <Button style={{ padding: 5 }} color="link"><Tooltip title="Collaborator">
             <PersonAddAltIcon fontSize="small" /></Tooltip>
           </Button>    
-          <Button style={{ padding: 5 }} color="link"><Tooltip title="Background Options">
+          <Button style={{ padding: 5 }} color="link" onClick={handleColorButtonClick}><Tooltip title="Background Options">
             <PaletteOutlinedIcon fontSize="small" /></Tooltip>
           </Button>                
           <Button style={{ padding: 5 }} color="link"><Tooltip title="Image Upload">
@@ -47,8 +79,8 @@ const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = ()
           <Button style={{ padding: 5 }} color="link" onClick={trash}><Tooltip title="Delete">
           <DeleteOutlineOutlined fontSize="small" /></Tooltip>
         </Button>
-            
       </div>
+      {colorCardVisible && <ColorCard handleColorSelection={handleColorSelection} />}
     </div>
   );
 }

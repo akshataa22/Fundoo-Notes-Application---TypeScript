@@ -62,8 +62,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isClosed , setPageTitle }) => {
             {!isClosed && <>Notes</>}
           </Link>
         </div>
-        <div style={{color:"black"}} className={location.pathname === "/Reminder" ? "active" : ""}>
-          <Link to="/Reminder" onClick={() => handleOptionClick('Reminder')}>
+        <div style={{color:"black"}} className={location.pathname === "/reminder" ? "active" : ""}>
+          <Link to="/reminder" onClick={() => handleOptionClick('Reminder')}>
             <NotificationsNoneOutlinedIcon fontSize="medium" className="option-icon" />
             {!isClosed && <>Reminders</>}
           </Link>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./../styles/Dashboard.scss";
 import { Note as NoteType } from "./../services/NoteService"; 
 import { Card, CardBody, CardText, CardTitle, Button } from "reactstrap";
@@ -13,10 +13,20 @@ interface NoteProps {
   archiveNote?: (noteId: number) => void;
   unarchiveNote?: (noteId: number) => void;
   trashNote?: (noteId: number) => void;
+  colorNote?: (noteId: number, color: string) => void;
   isArchivedPage?: boolean;
 }
 
-const Note: React.FC<NoteProps> = ({ note, layoutMode, updateNote = () => {}, archiveNote = () => {}, unarchiveNote = () => {}, trashNote = () => {} ,isArchivedPage = false }) => {
+const Note: React.FC<NoteProps> = ({
+  note,
+  layoutMode,
+  updateNote = () => {},
+  archiveNote = () => {},
+  unarchiveNote = () => {},
+  trashNote = () => {},
+  isArchivedPage = false,
+  colorNote = () => {}
+}) => {
   const handleBlur = (field: "title" | "description", value: string) => {
     if (note.id !== undefined) {
       updateNote(note.id, { ...note, [field]: value });
@@ -25,28 +35,47 @@ const Note: React.FC<NoteProps> = ({ note, layoutMode, updateNote = () => {}, ar
 
   const handleArchiveClick = () => {
     if (note.id !== undefined) {
-      archiveNote(note.id);
+      archiveNote?.(note.id);
     }
   };
 
   const handleUnarchiveClick = () => {
     if (note.id !== undefined) {
-      unarchiveNote(note.id);
+      unarchiveNote?.(note.id);
     }
   };
 
   const handleTrashClick = () => {
     if (note.id !== undefined) {
-      trashNote(note.id);
+      trashNote?.(note.id);
     }
   };
 
-  return (      
-    <div className="note-card" style={{ marginLeft: layoutMode === 'vertical' ? '0' : '203px',  width: layoutMode === 'vertical' ? '240px' : '48%', marginRight: layoutMode === 'horizontal' ? '12px' : '20px' }}>
+  const handleColorSelection = (color: string) => {
+    if (note.id !== undefined) {
+      colorNote?.(note.id, color);
+    }
+  };
+
+  return (
+    <div
+      className="note-card"
+      style={{
+        marginLeft: layoutMode === 'vertical' ? '0' : '203px',
+        width: layoutMode === 'vertical' ? '240px' : '48%',
+        marginRight: layoutMode === 'horizontal' ? '12px' : '20px'
+      }}
+    >
       <Card className="card">
-        <CardBody className="note-card-body" contentEditable suppressContentEditableWarning onBlur={(e) => handleBlur("title", e.currentTarget.innerText)}>
-          <CardTitle className="card-title" >
-            <div className="title-space">{note.title}
+        <CardBody className="note-card-body">
+          <CardTitle
+            className="card-title"
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={(e) => handleBlur("title", e.currentTarget.innerText)}
+          >
+            <div className="title-space">
+              {note.title}
               <div className="title-button-wrapper">
                 <div className="title-button">
                   <Button style={{ padding: 5 }} color="link">
@@ -56,14 +85,30 @@ const Note: React.FC<NoteProps> = ({ note, layoutMode, updateNote = () => {}, ar
                   </Button>
                 </div>
               </div>
-            </div>  
+            </div>
           </CardTitle>
-          <CardText className="card-text" contentEditable suppressContentEditableWarning onBlur={(e) => handleBlur("description", e.currentTarget.innerText)}>{note.description}</CardText>
-          <NoteButtons archive={handleArchiveClick} trash={handleTrashClick} unarchive={handleUnarchiveClick} isArchivedPage={isArchivedPage}/>
+          <CardText
+            className="card-text"
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={(e) => handleBlur("description", e.currentTarget.innerText)}
+          >
+            {note.description}
+          </CardText>
+          {note.id !== undefined && (
+            <NoteButtons
+              noteId={note.id}
+              archive={handleArchiveClick}
+              trash={handleTrashClick}
+              unarchive={handleUnarchiveClick}
+              isArchivedPage={isArchivedPage}
+              colorNote={handleColorSelection}
+            />
+          )}
         </CardBody>
       </Card>
     </div>
-  )    
-}
+  );
+};
 
 export default Note;

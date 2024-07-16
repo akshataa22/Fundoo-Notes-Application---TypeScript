@@ -6,7 +6,12 @@ import AddNote from './AddNote';
 import NoteService, { Note as NoteType } from "./../services/NoteService";
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
-function Dashboard() {
+interface DashboardProps {
+  note?: NoteType;
+  updateColor?: (color: string, id: number) => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = (props) => {
   const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
   const [notes, setNotes] = useState<NoteType[]>([]);
   const [newNote, setNewNote] = useState({ title: "", description: "" });
@@ -46,13 +51,16 @@ function Dashboard() {
   };
 
   const updateNote = async (id: number, updatedNote: NoteType) => {
-    try {
-      await NoteService.updateNote(id, updatedNote, token);
-      fetchNotes();
-    } catch (error) {
-      console.error('Error updating note:', error);
-    }
-  };
+  try {
+    console.log('Updating note:', id, updatedNote); // Log the update data
+    await NoteService.updateNote(id, updatedNote, token);
+    fetchNotes();
+    console.log('Note updated successfully');
+  } catch (error) {
+    console.error('Error updating note:', error);
+  }
+};
+
   
   const handleArchive = async (noteId: number) => {
     try {
@@ -73,6 +81,24 @@ function Dashboard() {
     }
   };
 
+  const handleColor = async (noteId: number, color: string) => {
+    try {
+      await NoteService.setColor([noteId], token, color);
+      setNotes((prevNotes) => {
+        const updatedNotes = prevNotes.map((note) =>
+          note.id === noteId ? { ...note, color } : note
+        );
+        console.log('Updated Notes:', updatedNotes); // Add this line
+        return updatedNotes;
+      });
+      console.log('Note color applied');
+    } catch (error) {
+      console.error('Error color note:', error);
+    }
+  };
+  
+  
+
   const toggleMenubar = () => {
     setSidebarMenu(!isMenuSidebar);
   };
@@ -87,9 +113,9 @@ function Dashboard() {
           <div className="pinned-notes-container">
             <div className='header-card'>
             {notes.length === 0 ? (
-                <div className='BackImg'>
+                <div className='bgImage'>
                   <LightbulbOutlinedIcon style={{ fontSize: 120 }} />
-                  <p className='noNote'>Notes you add appear here</p>
+                  <p className='text'>Notes you add appear here</p>
                 </div>
               ) : (
                 notes
@@ -102,6 +128,7 @@ function Dashboard() {
                       updateNote={updateNote}
                       archiveNote={handleArchive}
                       trashNote={handleTrash}
+                      colorNote={handleColor}
                     />
                   ))
               )}

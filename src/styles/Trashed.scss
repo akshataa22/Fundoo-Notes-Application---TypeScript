@@ -19,3 +19,25 @@
     margin-top: 16%;
     color: #eee8e8;
 }
+
+.notes-container {
+    display: flex;
+    flex-direction: column;
+  
+    &.horizontal .Trash-notes-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  
+    &.vertical .Trash-notes-container {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .trashed-notes-container {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  
