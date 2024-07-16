@@ -18,7 +18,7 @@ interface PropNoteButton {
   trash:() => void;
   colorNote: (color: string) => void;
   noteId: number; 
-  setReminder: (noteId: number, reminder: string) => void; 
+  setReminder: (noteId: number,reminder: string) => void; 
   isArchivedPage?: boolean; 
 }
 

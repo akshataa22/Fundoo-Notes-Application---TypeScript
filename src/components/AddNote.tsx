@@ -56,7 +56,7 @@ const AddNote: React.FC<AddNoteProps> = ({newNotes, onTitleChange, onTextChange,
 
 
   return (
-    <div className="add-note">
+    <div ref={addNoteRef} className="add-note">
       {isAddNoteOpen ? (
         <>
           <Input

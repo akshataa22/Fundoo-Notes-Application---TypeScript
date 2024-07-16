@@ -31,7 +31,7 @@ const Login: React.FC = () => {
           if (response.status === 200) {
             localStorage.setItem('token', response.data.id);
             localStorage.setItem('firstName', response.data.firstName);
-            localStorage.setItem('lastName', response.data.lastName);
+            localStorage.setItem('email', response.data.email);
             toast.success("User logged Successfully!", { position: 'top-center' })
             navigate('/dashboard');
           }
@@ -45,7 +45,7 @@ const Login: React.FC = () => {
         <div className="login-container">
             <div className="login-box">
                 <div className="above-form">
-                    <h2>Login</h2>
+                    <h2 id='head-section'>Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
                         <input className="login-input" type="text" id="email" name="email" placeholder="Enter your email" value={loginData.email} onChange={handleChange} required/>

@@ -8,12 +8,18 @@ import './../styles/Dashboard.scss'
 import './../styles/Archived.scss'
 import './../styles/Trashed.scss'
 
-function Archive() {
+function Archived() {
       const [archivedNotes, setArchivedNotes] = useState<NoteType[]>([]);
       const token = localStorage.getItem("token") || "";
       const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
       const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
       const [pageTitle, setPageTitle] = useState('');
+       const [searchText, setSearchText] = useState('');
+
+  const filteredNotes = archivedNotes.filter(note =>
+    note.title.toLowerCase().includes(searchText.toLowerCase()) ||
+    note.description.toLowerCase().includes(searchText.toLowerCase())
+  );
 
       const toggleLayoutMode = () => {
         setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
@@ -56,6 +62,19 @@ function Archive() {
         }
       };
 
+      const handleColorChange = async (noteId: number, color: string) => {
+        try {
+          await NoteServices.setColor([noteId], token, color);
+          setArchivedNotes(prevNotes => prevNotes.map(note => 
+            note.id === noteId ? { ...note, color } : note
+          ));
+          console.log('Color updated successfully');
+        } catch (error) {
+          console.error('Error updating color:', error);
+        }
+      };
+      
+
       const setReminder = async (noteId: number, reminder: string) => {
         try {
           await NoteServices.setReminder([noteId], token, reminder);
@@ -83,21 +102,21 @@ function Archive() {
       return (
         <div className="note-dashboard">
           <div className="App">
-            <Header toggleSidebar={toggleMenubar}  layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} />
+            <Header toggleSidebar={toggleMenubar}  layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} onSearch={setSearchText}/>
             <div className="main">
               <Sidebar isClosed={isMenuSidebar} setPageTitle={setPageTitle} />
               <div className="trash-container">
               <div className="notes-container">
                 <div className="archived-notes-container">
                 <div className='header-card'>
-                  {archivedNotes.length === 0 ? (
+                  {filteredNotes.length === 0 ? (
                     <div className="bgImage">
                     <img src={archivebgicon} alt="background image"/>
                     <p className="text">Your archived notes appear here</p>
                   </div>
                   ) : (
-                    archivedNotes.map((note) => (
-                      <Note key={note.id} note={note} layoutMode={layoutMode} unarchiveNote={handleUnArchive} isArchivedPage={true} trashNote={handleTrash} setReminder={setReminder} deleteReminder={removeReminder}/>
+                    filteredNotes.map((note) => (
+                      <Note key={note.id} note={note} layoutMode={layoutMode} colorNote={handleColorChange} unarchiveNote={handleUnArchive} isArchivedPage={true} trashNote={handleTrash} setReminder={setReminder} deleteReminder={removeReminder}/>
                     ))
                   )}
                   </div>
@@ -110,4 +129,4 @@ function Archive() {
       );
    
 };
-export default Archive;
+export default Archived;

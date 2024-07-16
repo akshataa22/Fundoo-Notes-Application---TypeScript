@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import Header from './Header';
 import Sidebar from "./Sidebar";
 import Note from './Note';
@@ -6,18 +6,22 @@ import AddNote from './AddNote';
 import NoteService, { Note as NoteType } from "./../services/NoteService";
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 
-interface DashboardProps {
-  note?: NoteType;
-  updateColor?: (color: string, id: number) => void;
-}
-
-const Dashboard: React.FC<DashboardProps> = (props) => {
+function Dashboard() {
   const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
   const [notes, setNotes] = useState<NoteType[]>([]);
   const [newNote, setNewNote] = useState({ title: "", description: "" });
   const [pageTitle, setPageTitle] = useState('');
   const token = localStorage.getItem("token") || "";
   const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
+  const [searchText, setSearchText] = useState('');
+
+  const filteredNotes = notes.filter(note =>
+    note.title.toLowerCase().includes(searchText.toLowerCase()) ||
+    note.description.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const pinnedNotes = filteredNotes.filter(note => note.isPined);
+  const unpinnedNotes = filteredNotes.filter(note => !note.isPined);
 
   const toggleLayoutMode = () => {
     setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
@@ -51,27 +55,25 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   };
 
   const updateNote = async (id: number, updatedNote: NoteType) => {
-  try {
-    console.log('Updating note:', id, updatedNote); // Log the update data
-    await NoteService.updateNote(id, updatedNote, token);
-    fetchNotes();
-    console.log('Note updated successfully');
-  } catch (error) {
-    console.error('Error updating note:', error);
-  }
-};
+    try {
+      await NoteService.updateNote(id, updatedNote, token);
+      fetchNotes();
+      console.log('Note updated successfully');
+    } catch (error) {
+      console.error('Error updating note:', error);
+    }
+  };
 
-  
   const handleArchive = async (noteId: number) => {
     try {
       await NoteService.setNoteToArchive([noteId], token);
-      setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+      setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId && !note.isArchived));
       console.log("Note is archived");
     } catch (error) {
       console.error('Error archiving note:', error);
     }
   };
-  
+
   const handleTrash = async (noteId: number) => {
     try {
       await NoteService.setNoteToTrash([noteId], token);
@@ -97,7 +99,27 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       console.error('Error color note:', error);
     }
   };
-  
+
+  const handlePin = async (noteId: number) => {
+    try {
+      await NoteService.pinNote([noteId], token);
+      fetchNotes();
+      console.log("Note is pinned");
+    } catch (error) {
+      console.error("Error pinning note:", error);
+    }
+  };
+
+  const handleUnPin = async (noteId: number) => {
+    try {
+      await NoteService.unPinNote([noteId], token);
+      fetchNotes();
+      console.log("Note is unpinned");
+    } catch (error) {
+      console.error("Error unpinning note:", error);
+    }
+  };
+
   const setReminder = async (noteId: number, reminder: string) => {
     try {
       await NoteService.setReminder([noteId], token, reminder);
@@ -117,29 +139,38 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       console.error('Error removing reminder:', error);
     }
   };
-  
+
   const toggleMenubar = () => {
     setSidebarMenu(!isMenuSidebar);
   };
 
   return (
     <>
-      <Header toggleSidebar={toggleMenubar} layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} />
+    <div className='dashboard-container'>
+      <Header toggleSidebar={toggleMenubar} layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} onSearch={setSearchText}/>
+      </div>
       <div className='main'>
         <Sidebar isClosed={isMenuSidebar} setPageTitle={setPageTitle}/>
         <div className={`notes-container ${isMenuSidebar ? 'shifted' : ''}`} >
-          <AddNote newNotes={newNote} onTitleChange={handleNoteTitleChange} onTextChange={handleNoteTextChange} onAddNote={addNote} />
-          <div className="pinned-notes-container">
-            <div className='header-card'>
-            {notes.length === 0 ? (
-                <div className='bgImage'>
-                  <LightbulbOutlinedIcon style={{ fontSize: 120 }} />
-                  <p className='text'>Notes you add appear here</p>
-                </div>
-              ) : (
-                notes
-                  .filter((note) => !note.isArchived && !note.isTrashed)
-                  .map((note) => (
+        <div className={`add-note-container ${searchText.trim() !== '' ? 'hidden' : ''}`}>
+            <AddNote newNotes={newNote} onTitleChange={handleNoteTitleChange} onTextChange={handleNoteTextChange} onAddNote={addNote} />
+          </div>
+          {filteredNotes.length === 0 ? (
+            <div className='bgImage'>
+              <LightbulbOutlinedIcon style={{ fontSize: 120 }} />
+              <p className='text'>Notes you add appear here</p>
+            </div>
+          ) : (
+            <>
+              <div className="pinned-notes-container">
+              {pinnedNotes.length > 0 && searchText.trim() === '' && (
+            <div className="pinned-header" style={{ marginLeft: layoutMode === 'vertical' ? '0' : '200px'}}>
+              <h2 className='note-head-container'>PINNED</h2>
+            </div>
+          )}
+                <>
+                <div className='header-card'>
+                  {pinnedNotes.map(note => (
                     <Note
                       key={note.id}
                       note={note}
@@ -148,13 +179,47 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
                       archiveNote={handleArchive}
                       trashNote={handleTrash}
                       colorNote={handleColor}
+                      pinNote={handlePin}
+                      unPinNote={handleUnPin}
                       setReminder={setReminder}
                       deleteReminder={removeReminder}
                     />
+                  ))}
+                  </div>
+                </>
+              </div>
+              <div className="unpinned-notes-container">
+              {pinnedNotes.length > 0 && searchText.trim() === '' && (
+    <div className="unpinned-header" style={{ marginLeft: layoutMode === 'vertical' ? '0' : '200px'}}>
+      <h2 className='note-head-container'>OTHERS</h2>
+    </div>
+  )}
+                <>
+                <div className='header-card'>
+                  {unpinnedNotes
+                  .filter(note => (
+                    !note.isArchived && !note.isDeleted
                   ))
-              )}
-            </div>
-          </div>
+                  .map(note => (
+                    <Note
+                      key={note.id}
+                      note={note}
+                      layoutMode={layoutMode}
+                      updateNote={updateNote}
+                      archiveNote={handleArchive}
+                      trashNote={handleTrash}
+                      colorNote={handleColor}
+                      pinNote={handlePin}
+                      unPinNote={handleUnPin}
+                      setReminder={setReminder}
+                      deleteReminder={removeReminder}
+                    />
+                  ))}
+                  </div>
+                </>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

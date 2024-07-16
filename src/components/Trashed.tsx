@@ -10,12 +10,19 @@ import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Tooltip } from "@mui/material";
 
-function Trash() {
+function Trashed() {
   const [trashedNotes, setTrashedNotes] = useState<NoteType[]>([]);
   const token = localStorage.getItem("token") || "";
   const [pageTitle, setPageTitle] = useState('');
   const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
   const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
+  const [searchText, setSearchText] = useState('');
+
+  const filteredNotes = trashedNotes.filter(note =>
+    note.title.toLowerCase().includes(searchText.toLowerCase()) ||
+    note.description.toLowerCase().includes(searchText.toLowerCase())
+  );
+
 
   const toggleLayoutMode = () => {
     setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
@@ -64,7 +71,7 @@ function Trash() {
 
   return (
     <div className="App">
-      <Header toggleSidebar={toggleMenubar} layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} />
+      <Header toggleSidebar={toggleMenubar} layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} onSearch={setSearchText}/>
       <div className="main">
         <Sidebar isClosed={isMenuSidebar} setPageTitle={setPageTitle} />
         <div className="trash-container">
@@ -77,9 +84,9 @@ function Trash() {
                 </div>
               ) : (
                 <div className="header-card">
-                  {trashedNotes.map((note) => (
+                  {filteredNotes.map((note) => (
                     <div className="note-card" key={note.id} style={{ marginLeft: layoutMode === 'vertical' ? '0' : '203px', width: layoutMode === 'vertical' ? '240px' : '48%', marginRight: layoutMode === 'horizontal' ? '12px' : '20px' }}>
-                      <div className="card">
+                      <div className="card" style={{backgroundColor:note.color}}>
                         <div className="note-card-body" style={{textAlign: "start"}}>
                           <div className="card-title">{note.title}</div>
                           <div className="card-text">{note.description}</div>
@@ -107,4 +114,4 @@ function Trash() {
   );
 }
 
-export default Trash;
+export default Trashed;

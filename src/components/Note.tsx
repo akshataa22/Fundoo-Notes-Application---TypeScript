@@ -2,10 +2,10 @@ import React from "react";
 import "./../styles/Dashboard.scss";
 import { Note as NoteType } from "./../services/NoteService"; 
 import { Card, CardBody, CardText, CardTitle, Button } from "reactstrap";
-import { PushPinOutlined } from "@mui/icons-material";
+import { PushPinOutlined, PushPin } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import NoteButtons from "./NoteButtons";
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 interface NoteProps {
   note: NoteType;
@@ -15,6 +15,8 @@ interface NoteProps {
   unarchiveNote?: (noteId: number) => void;
   trashNote?: (noteId: number) => void;
   colorNote?: (noteId: number, color: string) => void;
+  pinNote?: (noteId: number) => void;
+  unPinNote?: (noteId: number) => void;
   isArchivedPage?: boolean;
   reminder?: string;
   setReminder: (noteId: number, reminder: string) => void; 
@@ -30,49 +32,40 @@ const Note: React.FC<NoteProps> = ({
   trashNote = () => {},
   isArchivedPage = false,
   colorNote = () => {},
+  pinNote = () => {},
+  unPinNote = () => {},
   setReminder,
   deleteReminder
 }) => {
+  
   const handleBlur = (field: "title" | "description", value: string) => {
     if (note.id !== undefined) {
       updateNote(note.id, { ...note, [field]: value });
     }
   };
 
-  const handleArchiveClick = () => {
-    if (note.id !== undefined) {
-      archiveNote?.(note.id);
-    }
-  };
+  const handleArchiveClick = () => note.id !== undefined && archiveNote?.(note.id);
 
-  const handleUnarchiveClick = () => {
-    if (note.id !== undefined) {
-      unarchiveNote?.(note.id);
-    }
-  };
+  const handleUnarchiveClick = () => note.id !== undefined && unarchiveNote?.(note.id);
 
-  const handleTrashClick = () => {
-    if (note.id !== undefined) {
-      trashNote?.(note.id);
-    }
-  };
+  const handleTrashClick = () => note.id !== undefined && trashNote?.(note.id);
 
-  const handleColorSelection = (color: string) => {
-    if (note.id !== undefined) {
-      colorNote?.(note.id, color);
-    }
-  };
+  const handleColorSelection = (color: string) => note.id !== undefined && colorNote?.(note.id, color);
+
+  const handlePinClick = () => note.id !== undefined && (note.isPined ? unPinNote?.(note.id) : pinNote?.(note.id));
 
   const renderReminder = () => {
     if (note.reminder && !isNaN(Date.parse(note.reminder))) {
       return (
         <div className="reminder-tab">
-          <div id="dates">{new Date(note.reminder).toLocaleString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          }).replace(',', '')}</div>
+          <div id="dates">
+            {new Date(note.reminder).toLocaleString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            }).replace(',', '')}
+          </div>
           <Button onClick={() => note.id !== undefined && deleteReminder(note.id)}>
             <CloseOutlinedIcon fontSize="small" />
           </Button>
@@ -87,26 +80,33 @@ const Note: React.FC<NoteProps> = ({
       className="note-card"
       style={{
         marginLeft: layoutMode === 'vertical' ? '0' : '203px',
-        width: layoutMode === 'vertical' ? '240px' : '48%',
+        width: layoutMode === 'vertical' ? '240px' : '54%',
         marginRight: layoutMode === 'horizontal' ? '12px' : '20px'
       }}
     >
-      <Card className="card">
+      <Card className="card" style={{ backgroundColor: note.color }}>
         <CardBody className="note-card-body">
           <CardTitle
             className="card-title"
             contentEditable
             suppressContentEditableWarning
             onBlur={(e) => handleBlur("title", e.currentTarget.innerText)}
+            aria-label="Note Title"
           >
             <div className="title-space">
               {note.title}
               <div className="title-button-wrapper">
                 <div className="title-button">
-                  <Button style={{ padding: 5 }} color="link">
-                    <Tooltip title="Pin note">
-                      <PushPinOutlined fontSize="medium" className="pin-icon" />
-                    </Tooltip>
+                  <Button style={{ padding: 5 }} color="link" onClick={handlePinClick}>
+                    {note.isPined ? (
+                      <Tooltip title="Unpin note">
+                        <PushPin fontSize="medium" className="pin-icon" />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title={isArchivedPage ? "Pin Archived Note" : "Pin note"}>
+                        <PushPinOutlined fontSize="medium" className="pin-icon" />
+                      </Tooltip>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -117,6 +117,7 @@ const Note: React.FC<NoteProps> = ({
             contentEditable
             suppressContentEditableWarning
             onBlur={(e) => handleBlur("description", e.currentTarget.innerText)}
+            aria-label="Note Description"
           >
             {note.description}
           </CardText>

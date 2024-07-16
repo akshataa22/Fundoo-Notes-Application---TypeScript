@@ -55,7 +55,25 @@ const NoteService = {
       description: updatedNote.description,
     }, config);
   },
-  
+
+  pinNote : (noteIdList: number[], token: string) => {
+    return axios.post(`${base_url}/notes/pinUnpinNotes`, {
+      noteIdList,
+      isPined: true
+    }, {
+      headers: { Authorization: token },
+    });
+  },
+
+  unPinNote : (noteIdList: number[], token: string) => {
+    return axios.post(`${base_url}/notes/pinUnpinNotes`, {
+      noteIdList,
+      isPined: false
+    }, {
+      headers: { Authorization: token },
+    });
+  },
+
 setNoteToArchive : (noteIdList: number[], token: string) => {
   return axios.post(`${base_url}/notes/archiveNotes`, {
     noteIdList,
@@ -64,6 +82,7 @@ setNoteToArchive : (noteIdList: number[], token: string) => {
     headers: { Authorization: token },
   });
 },
+
 setNoteToUnArchive : (noteIdList: number[], token: string) => {
   return axios.post(`${base_url}/notes/archiveNotes`, {
     noteIdList,
@@ -81,6 +100,7 @@ setNoteToTrash : (noteIdList: number[], token: string) => {
     headers: { Authorization: token },
   });
 },
+
 deleteNoteForever : (noteIdList: number[], token: string) => {
   return axios.post(`${base_url}/notes/deleteForeverNotes`, {
     noteIdList,

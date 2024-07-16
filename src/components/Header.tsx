@@ -17,15 +17,17 @@ interface HeaderProps {
   pageTitle: string;
   toggleLayoutMode: () => void;
   layoutMode: 'vertical' | 'horizontal';
+  onSearch: (searchText: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayoutMode, layoutMode}) => {
+const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayoutMode, layoutMode, onSearch}) => {
     const [showUserCard, setShowUserCard] = useState(false);
     const [username, setUsername] = useState('');
     const [profilePicture, setProfilePicture] = useState<string | null>(null);
     const token = localStorage.getItem('token');
     const firstName = localStorage.getItem('firstName');
-    const lastName = localStorage.getItem('lastName');
+    const email = localStorage.getItem('email');
+
     const navigate = useNavigate();
 
     const toggleUserCard = () => {
@@ -81,8 +83,8 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayout
     };  
 
     useEffect(() => {
-      setUsername(`${firstName} ${lastName}`);
-  }, [firstName, lastName]);
+      setUsername(`${email}`);
+  }, [email]);
 
     const handleRefresh = () => {
       window.location.reload(); 
@@ -113,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayout
                             </svg>
                         </button>
                         <div className="search-container">
-                            <input type="text" placeholder="Search" className="search-input" />
+                            <input type="text" placeholder="Search" className="search-input" onChange={(e) => onSearch(e.target.value)}/>
                         </div>
                         <div className='searchicon'>
                         <button>
@@ -149,35 +151,35 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayout
         ) : <span>{firstInitial}</span> }
       </div>
       {showUserCard && (
-      <div className="user-card">
-        <div className="user-info">
-          <p>{username}</p>
+        <div className="user-card">
+          <div className="user-info">
+            <p className='username'>{username}</p>
           </div>
           <div className="profile-button-container">
-          {profilePicture ? (
-              <label htmlFor="profile-picture-input" className="profile-picture-label" onClick={removeProfilePicture}>
-                Remove Profile Picture
-              </label>
-            ) : (
-              <>
-                <input
-                  className="pic"
-                  type="file"
-                  accept="image/*"
-                  id="profile-picture-input"
-                  onChange={handleImageUpload}
-                  style={{ display: 'none' }}
-                />
-                <label htmlFor="profile-picture-input" className="profile-picture-label">
-                  Add Profile Picture
-                </label>
-              </>
-            )}
+            <label htmlFor="profile-picture-input" className="profile-picture-label">
+              {profilePicture ? (
+                <img src={profilePicture} alt="Profile" className="profile-picture" />
+              ) : (
+                <span> {firstInitial} </span>
+              )}
+            </label>
+            <input
+              className="pic"
+              type="file" 
+              accept="image/*"
+              id="profile-picture-input"
+              onChange={handleImageUpload}
+              style={{ display: 'none' }}
+            />
           </div>
-          <div className="sign-out">
-            <button className="logout-button" onClick={handleLogout}>
-            <LogoutIcon />
-             <span style={{fontSize:'18px', color: '#424343'}}> Logout</span>
+
+          <p className='account'>Hi, {firstName}!</p>
+
+          <div className="account-actions">
+            <button className="add-account-button">Add Account</button>
+            <button className="sign-out-button" onClick={handleLogout}>
+              <LogoutIcon style={{ marginRight: 5 }} />
+              Logout
             </button>
           </div>
         </div>

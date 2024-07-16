@@ -17,6 +17,12 @@ function Reminder() {
       const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
       const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
       const [pageTitle, setPageTitle] = useState('');
+      const [searchText, setSearchText] = useState('');
+
+      const filteredNotes = reminderNotes.filter(note =>
+        note.title.toLowerCase().includes(searchText.toLowerCase()) ||
+        note.description.toLowerCase().includes(searchText.toLowerCase())
+      );
 
       const toggleLayoutMode = () => {
         setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
@@ -83,6 +89,13 @@ function Reminder() {
         }
       };
       
+      const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchText(e.target.value);
+        const filtered = reminderNotes.filter(note => 
+          note.title.toLowerCase().includes(e.target.value.toLowerCase())
+        );
+        setReminderNotes(filtered);
+      };
 
       useEffect(() => {
         fetchReminderNotes();
@@ -90,14 +103,14 @@ function Reminder() {
     
       return (
           <div className="App">
-            <Header toggleSidebar={toggleMenubar}  layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} />
+            <Header toggleSidebar={toggleMenubar}  layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} onSearch={setSearchText}/>
             <div className="main">
               <Sidebar isClosed={isMenuSidebar} setPageTitle={setPageTitle} />
               <div className="reminder-container">
               <div className="notes-container">
                 <div className="reminder-notes-container">
-                <div className='header-card' style={{marginTop:'10%',textAlign:'start'}}>
-                  {reminderNotes.length === 0 ? (
+                <div className='header-card' style={{marginTop:'29%',textAlign:'start'}}>
+                  {filteredNotes.length === 0 ? (
                     <div className="bgImage">
                     <img src={reminderbgicon} alt="background image"/>
                     <p className="text">Your reminder notes appear here</p>
