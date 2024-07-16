@@ -15,6 +15,10 @@ function Dashboard() {
   const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
   const [searchText, setSearchText] = useState('');
 
+  useEffect(() => {
+    fetchNotes();
+  }, [token]);
+
   const filteredNotes = notes.filter(note =>
     note.title.toLowerCase().includes(searchText.toLowerCase()) ||
     note.description.toLowerCase().includes(searchText.toLowerCase())
@@ -27,9 +31,9 @@ function Dashboard() {
     setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
   };
 
-  useEffect(() => {
-    fetchNotes();
-  }, [token]);
+  const toggleMenubar = () => {
+    setSidebarMenu(!isMenuSidebar);
+  };
 
   const handleNoteTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewNote({ ...newNote, title: e.target.value });
@@ -138,10 +142,6 @@ function Dashboard() {
     } catch (error) {
       console.error('Error removing reminder:', error);
     }
-  };
-
-  const toggleMenubar = () => {
-    setSidebarMenu(!isMenuSidebar);
   };
 
   return (

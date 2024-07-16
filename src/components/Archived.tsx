@@ -9,29 +9,33 @@ import './../styles/Archived.scss'
 import './../styles/Trashed.scss'
 
 function Archived() {
-      const [archivedNotes, setArchivedNotes] = useState<NoteType[]>([]);
-      const token = localStorage.getItem("token") || "";
-      const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
-      const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
-      const [pageTitle, setPageTitle] = useState('');
-       const [searchText, setSearchText] = useState('');
+    const [archivedNotes, setArchivedNotes] = useState<NoteType[]>([]);
+    const token = localStorage.getItem("token") || "";
+    const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
+    const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
+    const [pageTitle, setPageTitle] = useState('');
+    const [searchText, setSearchText] = useState('');
+
+    useEffect(() => {
+      fetchArchivedNotes();
+    }, []);
 
   const filteredNotes = archivedNotes.filter(note =>
     note.title.toLowerCase().includes(searchText.toLowerCase()) ||
     note.description.toLowerCase().includes(searchText.toLowerCase())
   );
 
-      const toggleLayoutMode = () => {
-        setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
-      };
+    const toggleLayoutMode = () => {
+      setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
+    };
+  
+    const toggleMenubar = () => {
+      setSidebarMenu(!isMenuSidebar);
+    };
     
-      const toggleMenubar = () => {
-        setSidebarMenu(!isMenuSidebar);
-      };
-    
-      const fetchArchivedNotes = async () => {
-        try {
-          const response = await NoteServices.fetchArchiveNotes(token);
+    const fetchArchivedNotes = async () => {
+      try {
+        const response = await NoteServices.fetchArchiveNotes(token);
           console.log("Fetched archive notes data:", response);
           const data: NoteType[] = Array.isArray(response.data.data)
             ? response.data.data
@@ -39,65 +43,61 @@ function Archived() {
             setArchivedNotes(data);
         } catch (error) {
           console.error("Error fetching trash notes:", error);
-        }
-      };
+      }
+    };
 
-      const handleUnArchive = async (noteId: number) => {
-        try {
+    const handleUnArchive = async (noteId: number) => {
+      try {
           await NoteServices.setNoteToUnArchive([noteId], token);
           setArchivedNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
           console.log("Note is Unarchived");
-        } catch (error) {
+      } catch (error) {
           console.error('Error Unarchiving note:', error);
-        }
-      };
+      }
+    };
 
-      const handleTrash = async (noteId: number) => {
-        try {
+    const handleTrash = async (noteId: number) => {
+      try {
           await NoteServices.setNoteToTrash([noteId], token);
           setArchivedNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
           console.log("Note is deleted");
-        } catch (error) {
+      } catch (error) {
           console.error('Error deleting note:', error);
-        }
-      };
+      }
+    };
 
-      const handleColorChange = async (noteId: number, color: string) => {
-        try {
-          await NoteServices.setColor([noteId], token, color);
-          setArchivedNotes(prevNotes => prevNotes.map(note => 
-            note.id === noteId ? { ...note, color } : note
-          ));
-          console.log('Color updated successfully');
-        } catch (error) {
-          console.error('Error updating color:', error);
-        }
-      };
+  const handleColorChange = async (noteId: number, color: string) => {
+    try {
+      await NoteServices.setColor([noteId], token, color);
+        setArchivedNotes(prevNotes => prevNotes.map(note => 
+          note.id === noteId ? { ...note, color } : note
+        ));
+        console.log('Color updated successfully');
+      } catch (error) {
+        console.error('Error updating color:', error);
+      }
+    };
       
 
-      const setReminder = async (noteId: number, reminder: string) => {
-        try {
-          await NoteServices.setReminder([noteId], token, reminder);
+    const setReminder = async (noteId: number, reminder: string) => {
+      try {
+        await NoteServices.setReminder([noteId], token, reminder);
           fetchArchivedNotes();
           console.log('Reminder set successfully');
-        } catch (error) {
-          console.error('Error setting reminder:', error);
-        }
-      };
+      } catch (error) {
+        console.error('Error setting reminder:', error);
+      }
+    };
 
-      const removeReminder = async (noteId: number) => {
-        try {
-          await NoteServices.removeReminder([noteId], token);
-          fetchArchivedNotes();
-          console.log('Reminder removed successfully');
-        } catch (error) {
-          console.error('Error removing reminder:', error);
-        }
-      };
-    
-      useEffect(() => {
+  const removeReminder = async (noteId: number) => {
+      try {
+        await NoteServices.removeReminder([noteId], token);
         fetchArchivedNotes();
-      }, []);
+        console.log('Reminder removed successfully');
+      } catch (error) {
+        console.error('Error removing reminder:', error);
+      }
+    };
     
       return (
         <div className="note-dashboard">

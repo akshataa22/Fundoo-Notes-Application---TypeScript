@@ -20,7 +20,7 @@ interface HeaderProps {
   onSearch: (searchText: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayoutMode, layoutMode, onSearch}) => {
+function Header ({ toggleSidebar ,pageTitle , toggleLayoutMode, layoutMode, onSearch}: HeaderProps) {
     const [showUserCard, setShowUserCard] = useState(false);
     const [username, setUsername] = useState('');
     const [profilePicture, setProfilePicture] = useState<string | null>(null);
@@ -34,7 +34,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar ,pageTitle , toggleLayout
         setShowUserCard(!showUserCard);
       };    
 
-    const firstInitial = username ? username.charAt(0).toUpperCase() : '';
+    const firstInitial = firstName ? firstName  .charAt(0).toUpperCase() : '';
     
     const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
       if (event.target.files && event.target.files[0]) {

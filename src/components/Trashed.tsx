@@ -18,11 +18,14 @@ function Trashed() {
   const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
   const [searchText, setSearchText] = useState('');
 
+  useEffect(() => {
+    fetchTrashNotes();
+  }, []);
+
   const filteredNotes = trashedNotes.filter(note =>
     note.title.toLowerCase().includes(searchText.toLowerCase()) ||
     note.description.toLowerCase().includes(searchText.toLowerCase())
   );
-
 
   const toggleLayoutMode = () => {
     setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
@@ -64,10 +67,6 @@ function Trashed() {
       console.error('Error deleting note:', error);
     }
   };
-
-  useEffect(() => {
-    fetchTrashNotes();
-  }, []);
 
   return (
     <div className="App">
