@@ -10,6 +10,7 @@ import { Tooltip } from "@mui/material";
 import { Button } from 'reactstrap';
 import "./../styles/Dashboard.scss";
 import ColorCard from './ColorCard';
+import ReminderCard from './ReminderCard';
 
 interface PropNoteButton {
   archive: () => void;
@@ -17,11 +18,13 @@ interface PropNoteButton {
   trash:() => void;
   colorNote: (color: string) => void;
   noteId: number; 
+  setReminder: (noteId: number, reminder: string) => void; 
   isArchivedPage?: boolean; 
 }
 
-const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = () => {},  isArchivedPage = false, colorNote, noteId }) => {
+const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = () => {},  isArchivedPage = false, colorNote, noteId,setReminder }) => {
   const [colorCardVisible, setColorCardVisible] = useState(false);
+  const [reminderCardVisible, setReminderCardVisible] = useState(false);
   const colorButtonRef = useRef<HTMLDivElement>(null);
   const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null);
 
@@ -29,6 +32,11 @@ const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = ()
     setSelectedNoteId(noteId); // Set selectedNoteId to noteId when button is clicked
     setColorCardVisible(!colorCardVisible);
   };
+
+  const handleReminderButtonClick = () => { // Add this function
+    setReminderCardVisible(!reminderCardVisible);   
+  };
+
 
   const handleClickOutside = (e: MouseEvent) => {
     if (colorButtonRef.current && !colorButtonRef.current.contains(e.target as Node)) {
@@ -54,8 +62,7 @@ const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = ()
   return (
     <div className="button-container-wrapper">
       <div className="button-container">
-        
-          <Button style={{ padding: 5 }} color="link"><Tooltip title="Remind me">
+          <Button style={{ padding: 5 }} color="link" onClick={handleReminderButtonClick}><Tooltip title="Remind me">
             <AddAlertOutlinedIcon fontSize="small" /></Tooltip>
           </Button>
           <Button style={{ padding: 5 }} color="link"><Tooltip title="Collaborator">
@@ -81,6 +88,7 @@ const NoteButtons: React.FC<PropNoteButton> = ({ archive, trash,  unarchive = ()
         </Button>
       </div>
       {colorCardVisible && <ColorCard handleColorSelection={handleColorSelection} />}
+      {reminderCardVisible && <ReminderCard noteId={noteId} setReminder={setReminder} />} 
     </div>
   );
 }

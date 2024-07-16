@@ -9,6 +9,7 @@ import './../styles/Archived.scss'
 import './../styles/Reminder.scss'
 import base_url from "../api/baseapi";
 import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css';
 
 function Reminder() {
       const [reminderNotes, setReminderNotes] = useState<NoteType[]>([]);
@@ -42,11 +43,11 @@ function Reminder() {
         }
       };
 
-      const handleUnArchive = async (noteId: number) => {
+      const handleArchive = async (noteId: number) => {
         try {
-          await NoteService.setNoteToUnArchive([noteId], token);
+          await NoteService.setNoteToArchive([noteId], token);
           setReminderNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
-          console.log("Note is Unarchived");
+          console.log("Note is Archived");
         } catch (error) {
           console.error('Error Unarchiving note:', error);
         }
@@ -62,12 +63,32 @@ function Reminder() {
         }
       };
     
+      const setReminder = async (noteId: number, reminder: string) => {
+        try {
+          await NoteService.setReminder([noteId], token, reminder);
+          fetchReminderNotes();
+          console.log('Reminder set successfully');
+        } catch (error) {
+          console.error('Error setting reminder:', error);
+        }
+      };
+
+      const removeReminder = async (noteId: number) => {
+        try {
+          await NoteService.removeReminder([noteId], token);
+          fetchReminderNotes();
+          console.log('Reminder removed successfully');
+        } catch (error) {
+          console.error('Error removing reminder:', error);
+        }
+      };
+      
+
       useEffect(() => {
         fetchReminderNotes();
       }, []);
     
       return (
-        <div className="note-dashboard">
           <div className="App">
             <Header toggleSidebar={toggleMenubar}  layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} />
             <div className="main">
@@ -75,7 +96,7 @@ function Reminder() {
               <div className="reminder-container">
               <div className="notes-container">
                 <div className="reminder-notes-container">
-                <div className='header-card' style={{marginTop:'33%'}}>
+                <div className='header-card' style={{marginTop:'10%',textAlign:'start'}}>
                   {reminderNotes.length === 0 ? (
                     <div className="bgImage">
                     <img src={reminderbgicon} alt="background image"/>
@@ -83,7 +104,7 @@ function Reminder() {
                   </div>
                   ) : (
                     reminderNotes.map((note) => (
-                      <Note key={note.id} note={note} layoutMode={layoutMode} unarchiveNote={handleUnArchive} isArchivedPage={false} trashNote={handleTrash} />
+                      <Note key={note.id} note={note} layoutMode={layoutMode} archiveNote={handleArchive} isArchivedPage={false} trashNote={handleTrash} setReminder={setReminder} deleteReminder={removeReminder}/>
                     ))
                   )}
                   </div>
@@ -92,7 +113,6 @@ function Reminder() {
               </div>
             </div>
           </div>
-        </div>
       );
    
 };

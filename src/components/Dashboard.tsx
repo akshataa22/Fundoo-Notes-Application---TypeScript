@@ -71,6 +71,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
       console.error('Error archiving note:', error);
     }
   };
+  
   const handleTrash = async (noteId: number) => {
     try {
       await NoteService.setNoteToTrash([noteId], token);
@@ -88,7 +89,7 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         const updatedNotes = prevNotes.map((note) =>
           note.id === noteId ? { ...note, color } : note
         );
-        console.log('Updated Notes:', updatedNotes); // Add this line
+        console.log('Updated Notes:', updatedNotes);
         return updatedNotes;
       });
       console.log('Note color applied');
@@ -97,8 +98,26 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
     }
   };
   
-  
+  const setReminder = async (noteId: number, reminder: string) => {
+    try {
+      await NoteService.setReminder([noteId], token, reminder);
+      fetchNotes();
+      console.log('Reminder set successfully');
+    } catch (error) {
+      console.error('Error setting reminder:', error);
+    }
+  };
 
+  const removeReminder = async (noteId: number) => {
+    try {
+      await NoteService.removeReminder([noteId], token);
+      fetchNotes();
+      console.log('Reminder removed successfully');
+    } catch (error) {
+      console.error('Error removing reminder:', error);
+    }
+  };
+  
   const toggleMenubar = () => {
     setSidebarMenu(!isMenuSidebar);
   };
@@ -129,6 +148,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
                       archiveNote={handleArchive}
                       trashNote={handleTrash}
                       colorNote={handleColor}
+                      setReminder={setReminder}
+                      deleteReminder={removeReminder}
                     />
                   ))
               )}

@@ -9,6 +9,7 @@ export interface Note {
   isArchived?: boolean;
   isDeleted?: boolean;
   color?:string;
+  reminder?:string
   [key: string]: any;
 }
 
@@ -131,6 +132,15 @@ fetchArchiveNotes: async (token: string): Promise<{ data: { data: Note[] } }> =>
   return response.data;
 },
 
+fetchReminderNotes: async (token: string): Promise<{ data: { data: Note[] } }> => {
+  const response = await axios.get(`${base_url}/notes/getReminderNotesList`, {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return response.data;
+},
+
 setReminder : async (noteIdList: number[], token: string, reminder: string) => {
   const response: ApiResponse<Note> = await axios.post(`${base_url}/notes/addUpdateReminderNotes`,  { noteIdList, reminder },{
     headers: {
@@ -138,6 +148,14 @@ setReminder : async (noteIdList: number[], token: string, reminder: string) => {
     },
   });
   return response.data;
+},
+
+removeReminder : async (noteIdList: number[], token: string) => {
+  await axios.post(`${base_url}/notes/removeReminderNotes`, { noteIdList } ,{
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
 }
 }
 

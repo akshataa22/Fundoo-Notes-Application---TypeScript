@@ -55,6 +55,26 @@ function Archive() {
           console.error('Error deleting note:', error);
         }
       };
+
+      const setReminder = async (noteId: number, reminder: string) => {
+        try {
+          await NoteServices.setReminder([noteId], token, reminder);
+          fetchArchivedNotes();
+          console.log('Reminder set successfully');
+        } catch (error) {
+          console.error('Error setting reminder:', error);
+        }
+      };
+
+      const removeReminder = async (noteId: number) => {
+        try {
+          await NoteServices.removeReminder([noteId], token);
+          fetchArchivedNotes();
+          console.log('Reminder removed successfully');
+        } catch (error) {
+          console.error('Error removing reminder:', error);
+        }
+      };
     
       useEffect(() => {
         fetchArchivedNotes();
@@ -77,7 +97,7 @@ function Archive() {
                   </div>
                   ) : (
                     archivedNotes.map((note) => (
-                      <Note key={note.id} note={note} layoutMode={layoutMode} unarchiveNote={handleUnArchive} isArchivedPage={true} trashNote={handleTrash} />
+                      <Note key={note.id} note={note} layoutMode={layoutMode} unarchiveNote={handleUnArchive} isArchivedPage={true} trashNote={handleTrash} setReminder={setReminder} deleteReminder={removeReminder}/>
                     ))
                   )}
                   </div>

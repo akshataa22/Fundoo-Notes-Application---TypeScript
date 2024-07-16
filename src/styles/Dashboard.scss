@@ -10,12 +10,14 @@ flex-wrap: wrap;
 align-items: flex-start;
 justify-content: flex-start;
 pointer-events: auto;
-width: calc(100vw - 13%);
+width: calc(100vw - 388px);
 position: relative;
 z-index: 1;
 transition: margin-left 0.3s ease, width 0.3s ease; 
 
   &.shifted {
+    margin-left: 120px; /* Adjust this value based on the width of the collapsed sidebar */
+    width: calc(100vw - 120px);
     margin-left: 9%; 
     z-index: 0;
   }
@@ -24,8 +26,8 @@ transition: margin-left 0.3s ease, width 0.3s ease;
 .note-card-body:focus,
 .card-title:focus,
 .card-text:focus {
-  outline: none; /* Remove the default outline */
-  border: none;  /* Ensure no border is applied */
+  outline: none;
+  border: none;  
 }
 
 .add-note {
@@ -302,4 +304,46 @@ margin: 16px;
   margin-left: 34%;
   margin-top: 13%;
   color: #e4dede;
+}
+
+  /* Reminder tab */
+.reminder-tab {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  margin-bottom: 10px;
+display: flex;
+align-items: center;
+margin-right: 5px;
+width: 70%;
+height: 28px;
+}
+
+#dates {
+  margin-left: 10px;
+  font-size: 0.9em;
+}
+
+.reminder-tab svg {
+  margin-left: 2px;
+}
+
+.reminder-tab button {
+  border: none;
+  margin-left: 3px;
+  border-radius: 50px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.reminder-tab button:hover {
+  background-color: #e9ecef93;
+  color: black;
+}
+
+.reminder-tab button svg {
+ padding-top: 4px;
+}
+
+.reminder-tab:hover {
+  background-color: rgba(73, 72, 72, 0.384);
 }

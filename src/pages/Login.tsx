@@ -51,13 +51,16 @@ const Login: React.FC = () => {
                         <input className="login-input" type="text" id="email" name="email" placeholder="Enter your email" value={loginData.email} onChange={handleChange} required/>
                     </div>
                     <div className="input-group">
-                        <input className="login-input" type="password" id="password" name="password"  placeholder="Enter your password" value={loginData.password} onChange={handleChange} required/>
+                        <input className="login-input" type="password" id="password" name="password"  placeholder="Password" value={loginData.password} onChange={handleChange} required/>
                     </div>
+                    <div id='forgot'> 
+                    <a className='nextlink' href="">Forgot Password?</a></div>
+                    <div className='bottom-container'>
                     <div className="links">
-                        <a className='nextlink' href="">Forgot Password?</a>
                         <a className='nextlink' href="/register">Create Account</a>
                     </div>
                     <button id="submit-button" type="submit">Login</button>
+                    </div>
                 </form>
                 </div>
             </div>

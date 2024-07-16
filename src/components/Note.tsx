@@ -5,6 +5,7 @@ import { Card, CardBody, CardText, CardTitle, Button } from "reactstrap";
 import { PushPinOutlined } from "@mui/icons-material";
 import { Tooltip } from "@mui/material";
 import NoteButtons from "./NoteButtons";
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 
 interface NoteProps {
   note: NoteType;
@@ -15,6 +16,9 @@ interface NoteProps {
   trashNote?: (noteId: number) => void;
   colorNote?: (noteId: number, color: string) => void;
   isArchivedPage?: boolean;
+  reminder?: string;
+  setReminder: (noteId: number, reminder: string) => void; 
+  deleteReminder: (noteId: number) => void;
 }
 
 const Note: React.FC<NoteProps> = ({
@@ -25,7 +29,9 @@ const Note: React.FC<NoteProps> = ({
   unarchiveNote = () => {},
   trashNote = () => {},
   isArchivedPage = false,
-  colorNote = () => {}
+  colorNote = () => {},
+  setReminder,
+  deleteReminder
 }) => {
   const handleBlur = (field: "title" | "description", value: string) => {
     if (note.id !== undefined) {
@@ -55,6 +61,25 @@ const Note: React.FC<NoteProps> = ({
     if (note.id !== undefined) {
       colorNote?.(note.id, color);
     }
+  };
+
+  const renderReminder = () => {
+    if (note.reminder && !isNaN(Date.parse(note.reminder))) {
+      return (
+        <div className="reminder-tab">
+          <div id="dates">{new Date(note.reminder).toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          }).replace(',', '')}</div>
+          <Button onClick={() => note.id !== undefined && deleteReminder(note.id)}>
+            <CloseOutlinedIcon fontSize="small" />
+          </Button>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -95,6 +120,9 @@ const Note: React.FC<NoteProps> = ({
           >
             {note.description}
           </CardText>
+          
+          {renderReminder()}
+
           {note.id !== undefined && (
             <NoteButtons
               noteId={note.id}
@@ -103,6 +131,7 @@ const Note: React.FC<NoteProps> = ({
               unarchive={handleUnarchiveClick}
               isArchivedPage={isArchivedPage}
               colorNote={handleColorSelection}
+              setReminder={setReminder} 
             />
           )}
         </CardBody>
