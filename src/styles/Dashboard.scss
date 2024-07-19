@@ -1,5 +1,25 @@
+.note-dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  text-align: start;
+}
+
 .main {
   display: flex;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.containerr {
   width: 100%;
 }
 
@@ -7,169 +27,81 @@
   visibility: hidden;
 }
 
-.notes-container {
-margin-bottom: 10px;
-margin-left: 371px;
-flex-wrap: wrap;
-align-items: flex-start;
-justify-content: flex-start;
-pointer-events: auto;
-width: calc(100vw - 388px);
-position: relative;
-z-index: 1;
-transition: margin-left 0.3s ease, width 0.3s ease; 
-
-  &.shifted {
-    margin-left: 120px; /* Adjust this value based on the width of the collapsed sidebar */
-    width: calc(100vw - 120px);
-    margin-left: 9%; 
-    z-index: 0;
-  }
-}
-.note-card:focus,
-.note-card-body:focus,
-.card-title:focus,
-.card-text:focus {
+.note-card:focus,.note-card-body:focus,.card-title:focus,.card-text:focus {
   outline: none;
-  border: none;  
-}
-
-.add-note {
-background-color: #fff;
-box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302),0 2px 6px 2px rgba(60,64,67,0.149);
-border-radius: 8px;
-transition: box-shadow 0.30s ease;
-margin:97px 450px 20px 231px;
-width: 600px;
-}
-
-.add-note input[type="text"] {
-width: 94%;
-padding: 9px;
-padding-top: 12px;
-margin-left: 8px;
-border: none;
-font-size: 1rem;
-outline: none;
-font-family: "Roboto",Arial,sans-serif;
-font-weight: 500;
-}
-
-.add-note textarea {
-width: 95%;
-padding-top: 12px;
-padding: 8px;
-margin-left: 9px;
-border: none;
-color: #202124; 
-font-size: .875rem;
-outline: none;
-font-family:Roboto,Arial,sans-serif;
-font-weight: 100;
-min-height: 46px;
-resize: none;
-box-sizing: border-box;
-}
-
-.add-button {
-background-color: #5f6368;
-color: white;
-padding: 8px 16px;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-transition: background-color 0.3s ease;
-}
-
-.add-button:hover {
-background-color: #4d5054;
-}
-
-.add-note-icon {
-width: 24px;
-height: 24px;
-cursor: pointer;
-transition: transform 0.3s ease;
-}
-
-.add-note-icon:hover {
-transform: rotate(45deg);
-}
-
-.take-note {
-color: #202124;
-cursor: pointer;
-padding: 12px 16px 12px 16px;
-border-radius: 8px;
-text-align: left;
-font-size: large;
-transition: background-color 0.3s ease;
-}
-
-.add-note-icon {
-  width: 80px;
-  height: 80px;
-  position: fixed;
-  bottom: 60px;
-  right: 90px;
-  cursor: pointer;
-  z-index: 1000; 
-}
-
-.pinned-notes-container {
-  display: flex;
-  flex-direction: column;
-  margin-left: 30px;
-}
-
-.unpinned-notes-container {
-  display: flex;
-  flex-direction: column;
-  margin-left: 30px;
-}
-
-.pinned-header {
-  font-size: 10px;
-  font-weight: bold;
-  color: #333;
-}
-
-.unpinned-header {
-  font-size: 10px;
-  font-weight: bold;
-  color: #333;
+  border: none;
 }
 
 .note-head-container {
   color: #5f6368;
-  font-size: .6875rem;
-  letter-spacing: .0727272727em;
+  font-size: 0.6875rem;
+  letter-spacing: 0.0727272727em;
   line-height: 1rem;
-  margin: 32px 32px 8px 21px; 
+  margin: 32px 0 8px 21px;
+  width: 4%;
+}
+
+.notes-container {
+  top: 13%;
+  margin-bottom: 10px;
+  margin-left: 25%;
+  width: 70%;
+  position: relative;
+  z-index: 1;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  flex-grow: 1;  
+}
+
+ .pinned-notes-container, .unpinned-notes-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-left: 30px;
+}
+
+.notes-container.shifted {
+  margin-left: 12%;
+  z-index: 0;
+
+  .add-note {
+    margin-left:31%;
+  }
+}
+
+.pinned-notes-container,
+.unpinned-notes-container {
+  flex-wrap: wrap;
+  width: 97%;
+  overflow: visible;
+}
+
+.notes-container.shifted{
+  .pinned-notes-container,.unpinned-notes-container{
+    width: 121%;
+  }
 }
 
 .header-card {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
 }
 
-.note-title {
-width: calc(100% - 20px);
-border: none;
-font-weight: bold;
-font-size: 16px;
-margin-bottom: 5px;
-position: absolute;
-}
-
 .note-card {
-border-radius: 8px;
-position: relative;
-flex: 0 0 auto;
-margin: 16px;
-width: 100%;
-margin-top: 0;
+  border-radius: 8px;
+  position: relative;
+  flex: 0 0 auto;
+  margin: 16px;
+  margin-top: 0;
+  &.vertical {
+    margin-left: 0;
+    width: 240px;
+    margin-right: 20px;
+  }
+  &.horizontal {
+    margin-left: 209px;
+    width: 57.6%;
+    margin-right: 12px;
+  }
 }
 
 .note-card-body {
@@ -184,10 +116,12 @@ margin-top: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative; 
+  position: relative;
   border-radius: 8px;
-  box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07),inset -1px 0 0 rgba(0,0,0,.07);
-  padding: 10px; 
+  box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.07), inset -1px 0 0 rgba(0, 0, 0, 0.07);
+  padding: 10px;
+  height: auto;
 }
 
 .card-title {
@@ -204,31 +138,58 @@ margin-top: 0;
   margin-bottom: 10px;
   outline: none;
   flex-grow: 1;
-  overflow: auto;
   min-height: 50px;
+  display: flex;
 }
 
-.label-button {
-  background-color: transparent;
-  margin-left: 4px;
+.add-note {
+  background-color: #fff;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
+    0 2px 6px 2px rgba(60, 64, 67, 0.149);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+  margin: 0 0 1.9% 15%;
+  display: flex;
+  flex-direction: column;
+  width: 56%;
+}
+
+.add-note input[type="text"] {
+  width: 94%;
+  padding: 9px;
+  padding-top: 12px;
+  margin-left: 8px;
   border: none;
-  margin-top: 5px;
+  font-size: 1rem;
+  outline: none;
+  font-family: "Roboto", Arial, sans-serif;
+  font-weight: 500;
+}
+
+.add-note textarea {
+  width: 95%;
+  padding-top: 12px;
+  padding: 8px;
+  margin-left: 9px;
+  border: none;
+  color: #202124;
+  font-size: 0.875rem;
+  outline: none;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 100;
+  min-height: 46px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.take-note {
+  color: #202124;
   cursor: pointer;
-  size: 10px;
-  padding-bottom: 5px;
-  color: #333;
-}
-
-.label-button :hover {
-  background-color: rgba(73, 72, 72, 0.384);
-  border-radius: 50%;
-  padding: auto;
-  color: #000;
-}
-
-.label-button svg {
-  margin-top: 4px;
-  margin-right: 5px;
+  padding: 12px 16px 12px 16px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: large;
+  transition: background-color 0.3s ease;
 }
 
 .button-container {
@@ -307,40 +268,35 @@ margin-top: 0;
   justify-content: space-between;
 }
 
-.trashed-notes-container {
-  position: fixed;
-  top: 12%;
-  width: 1040px;
-
-  .card-text {
-    text-align: start;
-  }
-}
-
-.text{
+.text {
   color: #5f6368;
   cursor: default;
   font-family: "Google Sans", Roboto, Arial, sans-serif;
   font-size: 1.375rem;
   font-weight: 400;
-  margin-top: 3%; 
+  margin-top: 3%;
 }
-.bgImage{
+
+.bgImage {
   margin-left: 34%;
   margin-top: 13%;
   color: #e4dede;
+
+  .dashimg {
+    margin-left: 25%;
+  }
 }
 
-  /* Reminder tab */
+/* Reminder tab */
 .reminder-tab {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   margin-bottom: 10px;
-display: flex;
-align-items: center;
-margin-right: 5px;
-width: 70%;
-height: 28px;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  width: 70%;
+  height: 28px;
 }
 
 #dates {
@@ -366,9 +322,322 @@ height: 28px;
 }
 
 .reminder-tab button svg {
- padding-top: 4px;
+  padding-top: 4px;
 }
 
 .reminder-tab:hover {
   background-color: rgba(73, 72, 72, 0.384);
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .notes-container {
+    .add-note {
+      margin-left: 11%;
+      width: 85%;
+    }
+    .pinned-notes-container,.unpinned-notes-container {
+        width: 90%;
+        margin-left: 10%;
+        display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+      }
+.note-head-container {
+  margin-right: 74%;
+}
+      .header-card {
+        margin-left: 10%;
+    }
+  }
+  .notes-container.shifted {
+    .pinned-notes-container,.unpinned-notes-container {
+      width: 110%;
+    }
+    .note-head-container {
+      margin-right: 93%;
+    }
+    .header-card {
+      margin-left: 0;
+    }
+  }
+}
+
+@media only screen and (min-width: 432px) and (max-width: 768px) {
+  .notes-container {
+    width: 53%;
+  
+  .add-note {
+    width: 118%;
+    margin-left: 15%;
+  }
+  .pinned-notes-container,.unpinned-notes-container {
+    width: 125%;
+    margin-left: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .note-head-container {
+    margin-right: 40%;
+  }
+  .header-card {
+    margin-left: 25%;
+}
+}
+  .notes-container.shifted{
+    .add-note {
+      width: 140%;
+      margin-left: 8%;
+    }
+  .pinned-notes-container,.unpinned-notes-container {
+    width: 138%;
+  }
+  .note-card {
+    width: 232px;
+    min-height: 99px;
+  }
+
+ 
+  .note-head-container {
+    margin-right: 85%;
+  }
+  .header-card{
+    flex-direction: row;
+    margin-left: 5%;
+  }
+}
+}
+
+@media only screen and (min-width: 381px) and (max-width: 431px) {
+  .notes-container.shifted {
+    margin-left: 17%;
+    z-index: 3;
+
+    .add-note {
+      width: 102%;
+      margin-left: 12px;
+  
+       input[type=text] {
+        width: 87%;
+       }
+  
+       textarea{
+        padding-top: 2px;
+       }
+    }
+    .note-card {
+      width: 310px !important;
+      min-height: 99px;
+      padding: 0%;
+    }
+  }
+  .note-head-container {
+    margin-top: 20px;
+  }
+  .notes-container{
+    top: 10% ;
+  }
+  .pinned-notes-container,.unpinned-notes-container {
+    margin-left: 0;
+  }
+  .note-card {
+    .card {
+      padding: 4px;
+      height: 98px;
+    }
+    .button-container {
+      display: flex;
+    justify-content: left;
+    padding: 0;
+    margin-left: 3%;
+    }
+    .card-title {
+    font-size: 14px;
+    padding: 2%;
+    margin-bottom: 0;
+    }
+     .card-text {
+    font-size: 14px;
+    padding: 2%;
+    }
+  }
+.note-card.vertical {
+  margin-right: 0;
+  margin-left: 10px;
+  width: 282px;
+}
+.add-note{
+  width: 80%;
+}  
+.take-note {
+    margin-left: 3px;
+    padding: 6px;
+  }
+
+  .button-container svg{
+    font-size: medium;
+  }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 380px) {
+  .notes-container.shifted {
+    margin-left: 15%;
+    z-index: 3;
+    
+    .add-note {
+      width: 105%;
+      margin-left: 12px;
+
+      input[type=text] {
+        width: 87%;
+       }
+
+      textarea{
+        padding-top: 2px;
+      }
+    }
+    .note-card {
+      width: 286px !important;
+      min-height: 99px;
+      padding: 0%;
+    }
+  }
+  .note-card {
+    .card {
+      padding: 4px;
+      height: 106px;
+    }
+    .button-container {
+      display: flex;
+    justify-content: left;
+    padding: 0;
+    margin-left: 3%;
+    
+    svg {
+      font-size: medium;
+    }  
+  }
+    .card-title {
+    font-size: 16px;
+    padding: 1%;
+    margin-bottom: 0;
+    }
+     .card-text {
+    font-size: 15px;
+    padding: 1%;
+    }
+  }
+    .pinned-notes-container, .unpinned-notes-container {
+      margin-left: 0;
+  }
+  .note-head-container {
+    margin-top: 20px;
+  }
+.notes-container{
+  top: 10%;
+}
+.note-card.vertical {
+  margin-right: 0;
+  margin-left: 10px;
+  width: 248px;
+}
+.add-note{
+  width: 80%;
+}  
+.take-note {
+  margin-left: 3px;
+  padding: 6px;
+}
+
+.AddNotebutton-container-wrapper{
+.AddNotebutton-container{
+  padding: 0; 
+  button {
+    margin-right: 0;
+    }
+}
+}
+}
+
+@media only screen and (max-width: 320px) {
+  .button-container svg{
+    font-size: medium;
+  }
+  .notes-container.shifted {
+    margin-left: 13%;
+    z-index: 3;
+
+    .add-note {
+      width: 110%;
+      margin-left: 12px;
+  
+       input[type=text] {
+        width: 87%;
+       }
+  
+       textarea{
+        padding-top: 2px;
+       }
+    }
+    .note-card {
+      width: 250px !important;
+      min-height: 99px;
+      padding: 0%;
+    }
+  }
+
+  .pinned-notes-container,.unpinned-notes-container {
+    margin-left: 0;
+  }
+  .note-head-container {
+    margin-top: 20px;
+  }
+  .notes-container{
+    top: 10% ;
+  }
+.note-card {
+.card {
+  padding: 4px;
+  height: 98px;
+}
+.button-container {
+  display: flex;
+justify-content: left;
+padding: 0;
+margin-left: 3%;
+}
+.card-title {
+font-size: 14px;
+padding: 2%;
+margin-bottom: 0;
+}
+ .card-text {
+font-size: 14px;
+padding: 2%;
+}
+}
+.note-card.vertical {
+  margin-right: 0;
+  margin-left: 10px;
+  width: 220px;
+}
+.add-note{
+  width: 87%;
+}  
+.take-note {
+    margin-left: 3px;
+    padding: 6px;
+  }
+  
+.AddNotebutton-container-wrapper{
+  .AddNotebutton-container{
+    padding: 0;
+
+    button {
+      margin-right: 0;
+    }
+  }
+  }
 }

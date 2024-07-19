@@ -102,7 +102,7 @@ const Register: React.FC = () => {
                 </form>
                 </div>
             <div className="image-container">
-                <img src={register} alt="Google Account Illustration" />
+                <img id='right-image' src={register} alt="Google Account Illustration" />
             </div>
             </div>
         </div>

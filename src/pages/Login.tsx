@@ -5,6 +5,7 @@ import "./../styles/Login.scss"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import base_url from "../api/baseapi";
+import logo from './../assets/images/google logo.png'
 
 interface LoginData {
     email: string;
@@ -45,13 +46,15 @@ const Login: React.FC = () => {
         <div className="login-container">
             <div className="login-box">
                 <div className="above-form">
+                    <img src={logo} alt="google logo" id='login-logo'/>
                     <h2 id='head-section'>Login</h2>
+                    <p className='acc'>Use your google account</p>
                 <form onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <input className="login-input" type="text" id="email" name="email" placeholder="Enter your email" value={loginData.email} onChange={handleChange} required/>
+                        <input className="login-input" type="text" id="email" name="email" placeholder="Enter your email*" value={loginData.email} onChange={handleChange} required/>
                     </div>
                     <div className="input-group">
-                        <input className="login-input" type="password" id="password" name="password"  placeholder="Password" value={loginData.password} onChange={handleChange} required/>
+                        <input className="login-input" type="password" id="password" name="password"  placeholder="Password*" value={loginData.password} onChange={handleChange} required/>
                     </div>
                     <div id='forgot'> 
                     <a className='nextlink' href="">Forgot Password?</a></div>

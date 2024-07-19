@@ -146,28 +146,19 @@ function Dashboard() {
 
   return (
     <>
-    <div className='dashboard-container'>
-      <Header toggleSidebar={toggleMenubar} layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} onSearch={setSearchText}/>
-      </div>
-      <div className='main'>
-        <Sidebar isClosed={isMenuSidebar} setPageTitle={setPageTitle}/>
-        <div className={`notes-container ${isMenuSidebar ? 'shifted' : ''}`} >
         <div className={`add-note-container ${searchText.trim() !== '' ? 'hidden' : ''}`}>
             <AddNote newNotes={newNote} onTitleChange={handleNoteTitleChange} onTextChange={handleNoteTextChange} onAddNote={addNote} />
           </div>
           {filteredNotes.length === 0 ? (
             <div className='bgImage'>
-              <LightbulbOutlinedIcon style={{ fontSize: 120 }} />
+              <LightbulbOutlinedIcon style={{ fontSize: 120 }} className='dashimg'/>
               <p className='text'>Notes you add appear here</p>
-            </div>
+             </div>
           ) : (
             <>
               <div className="pinned-notes-container">
               {pinnedNotes.length > 0 && searchText.trim() === '' && (
-            <div className="pinned-header" style={{ marginLeft: layoutMode === 'vertical' ? '0' : '200px'}}>
-              <h2 className='note-head-container'>PINNED</h2>
-            </div>
-          )}
+              <h2 className='note-head-container' style={{ marginLeft: layoutMode === 'vertical' ? '12px' : '220px'}}>PINNED</h2>)}
                 <>
                 <div className='header-card'>
                   {pinnedNotes.map(note => (
@@ -190,9 +181,7 @@ function Dashboard() {
               </div>
               <div className="unpinned-notes-container">
               {pinnedNotes.length > 0 && searchText.trim() === '' && (
-    <div className="unpinned-header" style={{ marginLeft: layoutMode === 'vertical' ? '0' : '200px'}}>
-      <h2 className='note-head-container'>OTHERS</h2>
-    </div>
+      <h2 className='note-head-container' style={{ marginLeft: layoutMode === 'vertical' ? '12px' : '220px'}}>OTHERS</h2>
   )}
                 <>
                 <div className='header-card'>
@@ -220,9 +209,7 @@ function Dashboard() {
               </div>
             </>
           )}
-        </div>
-      </div>
-    </>
+       </>
   );
 }
 

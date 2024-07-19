@@ -1,12 +1,17 @@
 .archived-notes-container {
   position: fixed;
-  top: 12%;
+  top: 18%;
   width: 1040px;
-  
+  .notes-container.shifted {
+    margin-left: 16%;
+  }
+.header-card {
+  display: flex;
+}
+
   .card-text {
     text-align: start;
   }
-}
 
 .text{
   color: #5f6368;
@@ -17,7 +22,12 @@
   margin-top: 3%; 
 }
 .bgImage{
-  margin-left: 34%;
   margin-top: 13%;
   color: #e4dede;
+  justify-content: center;
+}
+
+img {
+  margin-left: 25%;
+}
 }

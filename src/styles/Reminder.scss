@@ -6,10 +6,27 @@
     font-size: 1.375rem;
     font-weight: 400;
     margin-top: 3%; 
-  }
-  .bgImage{
-    width: 700px;
-    margin-left: 54%;
-    margin-top: 42%;
+}
+  
+  .reminder-notes-container {
+    position: fixed;
+    margin-left: 23%;
+    width: 1040px;
+    top: 18%;
+    
+    .header-card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .bgImage {
+      margin-top: 13%;
     color: #e4dede;
+    }
+
+    img {
+      margin-left: 30%;
+      width: 100px;
+    }
   }

@@ -69,13 +69,7 @@ function Trashed() {
   };
 
   return (
-    <div className="App">
-      <Header toggleSidebar={toggleMenubar} layoutMode={layoutMode} toggleLayoutMode={toggleLayoutMode} pageTitle={pageTitle} onSearch={setSearchText}/>
-      <div className="main">
-        <Sidebar isClosed={isMenuSidebar} setPageTitle={setPageTitle} />
-        <div className="trash-container">
-          <div className="notes-container">
-            <div className="trashed-notes-container">
+    <div className="trashed-notes-container">
               {trashedNotes.length === 0 ? (
                 <div className="BackImg">
                   <img src={trashbgicon} alt="background image"/>
@@ -101,14 +95,10 @@ function Trashed() {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+              </div>
+            ))}
         </div>
-      </div>
+      )}
     </div>
   );
 }

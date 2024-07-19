@@ -1,21 +1,30 @@
 .sidebar {
-  flex: 0 0 200px; 
+  width: 20%;
+  display: flex;
   position: fixed;
-  margin-top: 77px;
-  width: 30%;
+  top: 10%;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+
+  &.collapsed {
+    width: 60px;
+  }
 }
 
 .sidebar-options {
   display: flex;
   flex-direction: column;
   font-size: medium;
-  width: 270px;
+  text-align: center;
+  width: 100%;
   list-style-type: none;
 }
 
 .sidebar-options > div {
   display: flex;
-  align-items: center; 
+  align-items: center;
+  width: 100%;
 }
 
 .sidebar-options div a {
@@ -29,6 +38,7 @@
   width: 100%;
   font-size: .875rem;
   font-weight: 500;
+  padding: 1%;
 }
 
 .sidebar-options div a:hover {
@@ -37,15 +47,13 @@
 
 .sidebar-options div.active a {
   background-color:#feefc3;
-
-  .option-icon{
-    color: black;
-  }
+  height: 45px;
+  width: 100%;
 }
 
 .option-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   margin-right: 20px;
   margin-left: 20px;
 }
@@ -61,13 +69,14 @@
         a {
           &:hover {
             background-color: #eee8e8;
-            width: 20%;
+            width: 17%;
             margin-right: 74%;
             border-radius: 100%;
           }
         }
 
         &.active a {
+          display: flex;
           background-color: #feefc3;
           align-items: center;
           flex: none;
@@ -77,9 +86,172 @@
       }
 
       .option-icon {
-        text-align: center;
-        margin-left: 11px;
+        justify-content: center;
+        margin-left: 14px;
       }
     }
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    top: 11%;
+    width: 27%;
+  }
+  .mediasidebar {
+    &.collapsed {
+  .sidebar-options div.active a {
+    width: 20%;
+  }
+}}
+.header .logo-container .logo-text {
+  margin-left: 4%;
+  font-size: 20px;
+}
+}
+
+@media only screen and (min-width: 438px) and (max-width: 768px) {
+  .sidebar .sidebar-options .option-icon {
+    display: block;
+  }
+  .sidebar-options {
+    font-size: larger;
+    width: 238px;
+  }
+  .mediasidebar.collapsed .sidebar-options div.active a {
+    background-color: #feefc3;
+    align-items: center;
+    flex: none;
+    width: 82%;
+    border-radius: 100%;
+  }
+  .mediasidebar  {
+    .sidebar {
+      background-color: white;
+      top: 11%;
+      width: 30%;
+    }
+  }
+  .mediasidebar.collapsed .sidebar {
+    background-color: transparent;
+    width: 8%;
+  }
+}
+
+@media only screen and (min-width: 381px) and (max-width: 450px) {
+  .sidebar .sidebar-options .option-icon {
+    display: block;
+  }
+  .mediasidebar.collapsed .sidebar-options div.active a {
+    background-color: #feefc3;
+    align-items: center;
+    flex: none;
+    width: 100%;
+    border-radius: 100%;
+  }
+  .mediasidebar.collapsed .sidebar-options .option-icon {
+    margin-left: 11px;
+  }
+  .sidebar .sidebar-options .option-icon {
+    width: 19px;
+  }
+  .mediasidebar.collapsed .sidebar {
+    padding-left: 3px;
+    width: 10%;
+    z-index: 3;
+  }
+  .sidebar {
+    width: 52%;
+    background-color: white;
+  }
+  .sidebar .sidebar-options > div a {
+    font-size: small;
+  }
+  .sidebar .sidebar-options > div.active a {
+    font-size: small;
+  }
+
+.sidebar {
+  top: 9%;
+}
+}
+
+@media only screen and (max-width: 380px) {
+  .sidebar {
+    width: 52%;
+    top: 9%;
+    background-color: white;
+  }
+  .sidebar .sidebar-options .option-icon {
+    display: block;
+  }
+  .mediasidebar.collapsed .sidebar-options div.active a {
+    background-color: #feefc3;
+    align-items: center;
+    flex: none;
+    width: 85%;
+    border-radius: 100%;
+  }
+  
+  .mediasidebar.collapsed .sidebar-options .option-icon {
+    margin-left: 11px;
+    font-size: large;
+ 
+  }
+  .sidebar .sidebar-options .option-icon {
+    width: 19px;
+  }
+  .mediasidebar.collapsed .sidebar {
+    padding-left: 0;
+    width: 12%;
+    z-index: 3;
+  }
+  .sidebar .sidebar-options > div a {
+    font-size: small;
+    height: 37px;
+  }
+  .sidebar .sidebar-options > div.active a {
+    font-size: small;
+    height: 37px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .sidebar {
+    top: 9%;
+    width: 50%;
+    background-color: white;
+  }
+  .sidebar .sidebar-options .option-icon {
+    display: block;
+  }
+  .mediasidebar.collapsed .sidebar-options div.active a {
+    background-color: #feefc3;
+    align-items: center;
+    flex: none;
+    width: 100%;
+    border-radius: 100%;
+  }
+  .mediasidebar.collapsed .sidebar-options .option-icon {
+    margin-left: 11px;
+    font-size: large;
+    width: 40%;
+  }
+  .sidebar .sidebar-options .option-icon {
+    width: 19px;
+  }
+  .mediasidebar.collapsed .sidebar {
+    padding-left: 0;
+    width: 12%;
+    z-index: 3;
+    top: 9%;
+  }
+  .sidebar .sidebar-options > div a {
+    font-size: 12px;
+    height: 35px;
+  }
+  .sidebar .sidebar-options > div.active a {
+    font-size: 12px;
+    height: 35px;
   }
 }

@@ -109,7 +109,7 @@ function Reminder() {
               <div className="reminder-container">
               <div className="notes-container">
                 <div className="reminder-notes-container">
-                <div className='header-card' style={{marginTop:'29%',textAlign:'start'}}>
+                <div className='header-card'>
                   {filteredNotes.length === 0 ? (
                     <div className="bgImage">
                     <img src={reminderbgicon} alt="background image"/>

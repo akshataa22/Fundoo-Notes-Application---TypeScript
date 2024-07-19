@@ -14,17 +14,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isClosed , setPageTitle }) => {
     const location = useLocation();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const openModal = () => {
-    setModalIsOpen(true);
-    document.body.classList.add("modal-open");
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-    document.body.classList.remove("modal-open");
-  };
 
   useEffect(() => {
     switch (location.pathname) {

@@ -15,14 +15,21 @@
    
 }
 .BackImg{
-    margin-left: 6%;
-    margin-top: 16%;
+  width: 100%;
+    margin-left: 400px;
+    margin-top: 20%;
     color: #eee8e8;
+
+    img {
+      margin-left: 7%;
+    }
 }
 
 .trashed-notes-container {
     display: flex;
     flex-direction: column;
+    position: fixed;
+    top: 18%;
   
     &.horizontal .Trash-notes-container {
       display: flex;

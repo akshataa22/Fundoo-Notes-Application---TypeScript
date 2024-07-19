@@ -76,14 +76,7 @@ const Note: React.FC<NoteProps> = ({
   };
 
   return (
-    <div
-      className="note-card"
-      style={{
-        marginLeft: layoutMode === 'vertical' ? '0' : '203px',
-        width: layoutMode === 'vertical' ? '240px' : '54%',
-        marginRight: layoutMode === 'horizontal' ? '12px' : '20px'
-      }}
-    >
+    <div className={`note-card ${layoutMode}`}>
       <Card className="card" style={{ backgroundColor: note.color }}>
         <CardBody className="note-card-body">
           <CardTitle

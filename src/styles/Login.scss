@@ -23,11 +23,21 @@ $box-padding: 2rem;
     margin: 0 2rem;
 }
 
+#login-logo {
+    width: 40%;
+    margin-top: 10%;
+}
+
 #head-section {
-    margin-bottom: $box-padding;
-    margin-top: 2rem;
     font-size: 1.5rem;
     color: #333;
+    margin: 0;
+}
+
+.acc {
+    color: rgb(59, 59, 59);
+    margin: 0;
+    margin-bottom: 32px;
 }
 
 .input-group {
@@ -36,7 +46,7 @@ $box-padding: 2rem;
 
 
 .login-input {
-    width: 93%;
+    width: 91%;
     padding: 0.8rem;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -46,12 +56,13 @@ $box-padding: 2rem;
     display: flex;
     flex-direction: column;
     margin-bottom: 2.3rem;
-    justify-content: end;
+    justify-content: center;
 }
 
 .bottom-container {
     display: flex;
     justify-content: space-between;
+    margin-top: 27px;
 }
 
 .nextlink {
@@ -70,7 +81,7 @@ a:hover {
 }
 
 #submit-button {
-    width: 50%;
+    width: 27%;
     padding: 0.75rem;
     border: none;
     border-radius: 4px;
@@ -89,7 +100,7 @@ button:hover {
 @media (max-width: 600px) {
     .login-box {
         width: 60%;
-        height: 40%;
+        height: 50%;
     }
 
     .login-input {
@@ -98,6 +109,7 @@ button:hover {
 
     .above-form {
         margin: 0 1rem;
+        margin-left: 0;
     }
 
     h2 {
@@ -113,6 +125,16 @@ button:hover {
     #submit-button {
         font-size: 0.875rem;
     }
+
+    .bottom-container {
+        margin-top: 17px;
+        width: 109%;
+    }
+
+    .acc {
+        margin-left: 10px;
+        font-size: 15px;
+    }
 }
 
 /* For devices with min-width of 601px and max-width of 1024px  - tablets and small desktops */
@@ -127,6 +149,7 @@ button:hover {
 
     .above-form {
         margin: 0 1.5rem;
+        margin-left: 4px;
     }
 
     h2 {
