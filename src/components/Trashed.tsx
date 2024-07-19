@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import NoteService, { Note as NoteType } from "./../services/NoteService";
 import { Button } from 'reactstrap';
 import Header from "./Header";
@@ -13,10 +14,12 @@ import { Tooltip } from "@mui/material";
 function Trashed() {
   const [trashedNotes, setTrashedNotes] = useState<NoteType[]>([]);
   const token = localStorage.getItem("token") || "";
-  const [pageTitle, setPageTitle] = useState('');
   const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
-  const [layoutMode, setLayoutMode] = useState<'vertical' | 'horizontal'>('vertical'); 
-  const [searchText, setSearchText] = useState('');
+  const { layoutMode, toggleLayoutMode, searchText } = useOutletContext<{
+    layoutMode: "vertical" | "horizontal";
+    toggleLayoutMode: () => void;
+    searchText: string;
+  }>();
 
   useEffect(() => {
     fetchTrashNotes();
@@ -26,10 +29,6 @@ function Trashed() {
     note.title.toLowerCase().includes(searchText.toLowerCase()) ||
     note.description.toLowerCase().includes(searchText.toLowerCase())
   );
-
-  const toggleLayoutMode = () => {
-    setLayoutMode(prevMode => (prevMode === 'vertical' ? 'horizontal' : 'vertical'));
-  };
 
   const toggleMenubar = () => {
     setSidebarMenu(!isMenuSidebar);

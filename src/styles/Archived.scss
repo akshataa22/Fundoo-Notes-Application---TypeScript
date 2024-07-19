@@ -31,3 +31,39 @@ img {
   margin-left: 25%;
 }
 }
+
+@media only screen and (min-width: 426px) and (max-width: 768px) {
+  .notes-container.shifted {
+    .archived-notes-container {
+    top: 13%;
+    }
+   }
+  .header-card{
+    margin-left: 1%;
+    flex-direction: column;
+  }  
+}
+
+
+@media only screen and (min-width: 381px) and (max-width: 480px) {
+  .notes-container.shifted {
+  .archived-notes-container {
+  top: 13%;
+  }
+ }
+  .header-card{
+    flex-direction: column;
+  }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 380px) {
+  .header-card{
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+.header-card{
+  flex-direction: column;
+}
+}

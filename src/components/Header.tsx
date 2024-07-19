@@ -9,7 +9,7 @@ import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import base_url from "../api/baseapi";
 import "./../styles/Header.scss";
@@ -38,6 +38,7 @@ function Header({
   const email = localStorage.getItem("email");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleUserCard = () => {
     setShowUserCard(!showUserCard);
@@ -109,6 +110,13 @@ function Header({
     window.location.reload();
   };
 
+  const shouldHideLogo = [
+    "/reminder",
+    "/archived",
+    "/label",
+    "/trashed",
+  ].includes(location.pathname);
+
   return (
     <header className="header">
       <div className="space"></div>
@@ -119,18 +127,17 @@ function Header({
           </i>
         </button>
       </div>
-      <div className="logo-container">
-        <img src={logo} alt="logo" className="logo" />
+      <div className={`logo-container ${shouldHideLogo ? 'hide-logo' : ''} ${showSearchInput ? 'hide-logo-text' : ''}`}>
+        {!shouldHideLogo && <img src={logo} alt="logo" className="logo" />}
         <span className="logo-text">{pageTitle}</span>
       </div>
       <div className={`search-container ${showSearchInput ? 'active' : ''}`}>
         <SearchIcon className="search-icon" onClick={() => setShowSearchInput(true)} />
         <input type="text" placeholder="Search..." onChange={(e) => onSearch(e.target.value)} className={`search-input ${showSearchInput ? 'active' : ''}`} />
-      </div>
-            {/* <div className="closeicon">
-              <CloseIcon />
-            </div> */}
-        <div className='spacer'></div>
+     
+      <div className="closeicon"> 
+      {showSearchInput && <CloseIcon className="close-icon" onClick={() => setShowSearchInput(false)} />}</div>
+      </div> <div className='spacer'></div>
         <div className="icons">
             <RefreshOutlinedIcon onClick={handleRefresh}/>
           <div className="layout-toggle" onClick={toggleLayoutMode}>
@@ -193,8 +200,8 @@ function Header({
             <div className="account-actions">
               <button className="add-account-button">Add Account</button>
               <button className="sign-out-button" onClick={handleLogout}>
-                <LogoutIcon style={{ marginRight: 5 }} />
-                Logout
+                <LogoutIcon style={{ marginRight: 8,fontSize: 17 }} />
+                <span>Logout</span>
               </button>
             </div>
           </div>

@@ -86,21 +86,64 @@
   flex-wrap: wrap;
 }
 
-.note-card {
+.notes-container{
+  .note-head-container {
+  &.vertical {
+    margin-left: 12px;
+  }
+  &.horizontal {
+    margin-left: 164px;
+  }
+ }
+ .note-card {
   border-radius: 8px;
   position: relative;
   flex: 0 0 auto;
   margin: 16px;
   margin-top: 0;
+
   &.vertical {
     margin-left: 0;
     width: 240px;
     margin-right: 20px;
   }
   &.horizontal {
-    margin-left: 209px;
+    margin-left: 148px;
     width: 57.6%;
     margin-right: 12px;
+    
+    .button-container {
+      justify-content: left;
+      button {
+        margin-right: 4%;
+      }
+    }
+  }
+}
+}
+
+
+
+.notes-container.shifted {
+  .note-head-container {
+    &.vertical {
+      margin-left: 0;
+    }
+    &.horizontal {
+      margin-left: 304px;
+    }
+  }
+  .note-card {
+    &.vertical {
+      margin-left: 0;
+      width: 240px;
+      margin-right: 20px;
+    }
+    &.horizontal {
+      margin-left: 304px;
+      width: 46.4%;
+      margin-right: 12px;
+    }
   }
 }
 
@@ -148,7 +191,7 @@
     0 2px 6px 2px rgba(60, 64, 67, 0.149);
   border-radius: 8px;
   transition: box-shadow 0.3s ease;
-  margin: 0 0 1.9% 15%;
+  margin: 0 0 1.9% 16%;
   display: flex;
   flex-direction: column;
   width: 56%;
@@ -188,7 +231,11 @@
   padding: 12px 16px 12px 16px;
   border-radius: 8px;
   text-align: left;
-  font-size: large;
+  letter-spacing: .0142857143em;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.25rem;
   transition: background-color 0.3s ease;
 }
 
@@ -351,6 +398,9 @@
     }
   }
   .notes-container.shifted {
+    .add-note {
+      margin-left: 22%;
+    }
     .pinned-notes-container,.unpinned-notes-container {
       width: 110%;
     }
@@ -445,7 +495,7 @@
   .note-card {
     .card {
       padding: 4px;
-      height: 98px;
+      height: 120px;
     }
     .button-container {
       display: flex;

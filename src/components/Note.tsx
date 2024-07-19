@@ -42,6 +42,8 @@ const Note: React.FC<NoteProps> = ({
     if (note.id !== undefined) {
       updateNote(note.id, { ...note, [field]: value });
     }
+    console.log(layoutMode);
+          
   };
 
   const handleArchiveClick = () => note.id !== undefined && archiveNote?.(note.id);

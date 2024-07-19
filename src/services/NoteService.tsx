@@ -132,8 +132,6 @@ setColor: async (noteIdList: number[], token: string, color: string) => {
   }
 },
 
-
-
 fetchTrashNotes: async (token: string): Promise<{ data: { data: Note[] } }> => {
   const response = await axios.get(`${base_url}/notes/getTrashNotesList`, {
     headers: {

@@ -19,6 +19,7 @@
     align-items: center;
     justify-content: center;
     width: 3.2%;
+    cursor: pointer;
 
     button {
       border: none;
@@ -27,6 +28,7 @@
       background-color: transparent;
       outline: none;
       border: none;  
+      cursor: pointer;
     }
 
     &:hover {
@@ -41,6 +43,10 @@
     margin-left: 1%;
     width: 17%;
 
+    &.hide-logo .logo-text{
+      margin-left: 0;
+    }
+
     .logo {
       width: 40px;
       height: 40px;
@@ -50,8 +56,10 @@
 
     span {
       color: #3c4043;
-      font-family: "Product Sans", Arial, sans-serif;
-      font-size: 22px;
+      font-family: Google Sans, Roboto, Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.25px;
+      font-weight: 400;
     }
 
     .logo-text {
@@ -111,7 +119,7 @@
     }
 
     .closeicon {
-      visibility: hidden;
+      color: #555;
     }
   }
 
@@ -202,9 +210,9 @@
     align-items: center;
 
     span {
-      font-weight: 600;
+      font-weight: 400;
       line-height: normal;
-      font-size: 26px;
+      font-size: 30px;
       color: white;
     }
 
@@ -245,6 +253,8 @@
     cursor: pointer;
     font-size: 14px;
     color: #494949;
+    display: flex;
+    align-items: center;
 
     &:hover {
       background-color: #f0f0f0;
@@ -337,19 +347,22 @@
     .logo-container {
       width: 40%;
       margin-right: 4%;
-
+      &.hide-logo-text .logo-text{
+        display: none;
+      }
       .logo {
         display: block;
         width: 7%;
         height: 4%;
       }
-
       .logo-text {
         font-size: 18px;
         margin-left: 7%;
       }
     }
-
+.hide-logo-text.logo-container{
+  width: 15%;
+}
     .spacer {
       width: 0;
     }
@@ -364,17 +377,19 @@
       .search-icon {
         display: block;
         font-size: larger;
-      }
+      } 
 
       &.active {
         .search-input {
           display: block;
-          width: 100%;
+          width: 200px;
+          height: 30px;
         }
 
         .search-icon {
           display: none;
         }
+   
       }
     }
 
@@ -417,7 +432,9 @@
 
     .logo-container {
       width: 42%;
-
+      &.hide-logo-text .logo-text{
+        display: none;
+      }
       .logo {
         display: block;
         width: 28px;
@@ -429,7 +446,9 @@
         margin-left: 9%;
       }
     }
-
+    .hide-logo-text.logo-container{
+      width: 17%;
+    }
     .spacer {
       width: 0;
     }
@@ -450,6 +469,7 @@
         .search-input {
           display: block;
           width: 100%;
+          height: 32px;
         }
 
         .search-icon {
@@ -502,7 +522,9 @@
     .logo-container {
       width: 42%;
       margin-left: 0.1%;
-
+      &.hide-logo-text .logo-text{
+        display: none;;
+      }
       .logo {
         display: block;
         width: 24px;
@@ -514,7 +536,9 @@
         margin-left: 8%;
       }
     }
-
+    .hide-logo-text.logo-container{
+      width: 15%;
+    }
     .spacer {
       width: 0;
     }
@@ -534,7 +558,8 @@
       &.active {
         .search-input {
           display: block;
-          width: 100%;
+          width: 120px;
+          height: 32px;
         }
 
         .search-icon {

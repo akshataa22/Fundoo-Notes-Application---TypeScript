@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import NoteServices, { Note as NoteType } from "./../services/NoteService";
 import archivebgicon from "./../assets/icons/archivebg-icon.svg";
 import Note from "./Note";
@@ -9,9 +10,11 @@ function Archived() {
   const [archivedNotes, setArchivedNotes] = useState<NoteType[]>([]);
   const token = localStorage.getItem("token") || "";
   const [isMenuSidebar, setSidebarMenu] = useState<boolean>(false);
-  const [layoutMode, setLayoutMode] = useState<"vertical" | "horizontal">("vertical");
-  const [pageTitle, setPageTitle] = useState("");
-  const [searchText, setSearchText] = useState("");
+  const { layoutMode, toggleLayoutMode, searchText } = useOutletContext<{
+    layoutMode: "vertical" | "horizontal";
+    toggleLayoutMode: () => void;
+    searchText: string;
+  }>();
 
   useEffect(() => {
     fetchArchivedNotes();
@@ -22,12 +25,6 @@ function Archived() {
       note.title.toLowerCase().includes(searchText.toLowerCase()) ||
       note.description.toLowerCase().includes(searchText.toLowerCase())
   );
-
-  const toggleLayoutMode = () => {
-    setLayoutMode((prevMode) =>
-      prevMode === "vertical" ? "horizontal" : "vertical"
-    );
-  };
 
   const toggleMenubar = () => {
     setSidebarMenu(!isMenuSidebar);
